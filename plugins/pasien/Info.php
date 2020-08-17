@@ -6,7 +6,7 @@ return [
     'author'        =>  'Basoro',
     'version'       =>  '1.3',
     'compatibility' =>  '3.*',
-    'icon'          =>  'users',
+    'icon'          =>  'airline_seat_recline_normal',
     'install'       =>  function () use ($core) {
         $core->db()->pdo()->exec("INSERT INTO `lite_options` (`module`, `field`, `value`) VALUES ('pasien', 'ceknoktp', '0')");
     },

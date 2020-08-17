@@ -1,24 +1,16 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+<html lang="en-US">
+
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
     <title>{$opensimrs.title} - {$module.name}</title>
-    <link rel="icon" href="{$opensimrs.path}/favicon.png" type="image/x-icon">
-    <link href="{$opensimrs.path}/assets/css/bootstrap.min.css?v={$opensimrs.version}" rel="stylesheet">
-    <link href="{$opensimrs.path}/assets/css/bootstrap-theme.min.css?v={$opensimrs.version}" rel="stylesheet">
-    <link href="{$opensimrs.path}/assets/css/animate.min.css?v={$opensimrs.version}" rel="stylesheet">
-    <link href="{?=url(THEMES.'/admin/css/selectator.css?v='.$opensimrs.version)?}" rel="stylesheet">
-    <link href="{?=url(THEMES.'/admin/css/style.css?v='.$opensimrs.version)?}" rel="stylesheet">
-    <link href="{$opensimrs.path}/assets/css/font-awesome.css?v={$opensimrs.version}" rel="stylesheet">
-    <script src="{$opensimrs.path}/assets/jscripts/jquery.min.js"></script>
-    <script src="{$opensimrs.path}/assets/jscripts/bootstrap.min.js?v={$opensimrs.version}"></script>
-    <script src="{$opensimrs.path}/assets/jscripts/bootbox.min.js?v={$opensimrs.version}"></script>
-    <script src="{$opensimrs.path}/assets/jscripts/html.sortable.min.js?v={$opensimrs.version}"></script>
-    <script src="{$opensimrs.path}/assets/jscripts/tinynav.min.js?v={$opensimrs.version}"></script>
-    <script src="{?=url(THEMES.'/admin/js/kalypto.min.js?v='.$opensimrs.version)?}"></script>
-    <script src="{?=url(THEMES.'/admin/js/selectator.js?v='.$opensimrs.version)?}"></script>
+    <meta name="description" content="Dashboard Template. e-Health Care Admin Theme is a multipurpose and fully responsive Bootstrap 4 and Material Design based Admin HTML Template by Propeller designed mainly for Clinics, Hospitals, Dentists and more such applications related to health care." />
+    <link rel="shortcut icon" type="image/x-icon" href="{?=url(THEMES.'/admin/assets/images/logo-yaski.png')?}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{?=url(THEMES.'/admin/assets/css/ehealthcare-admin-compress.min.css')?}">
+    <link rel="stylesheet" type="text/css" href="{?=url(THEMES.'/admin/assets/selectator.css')?}">
     <script>
         var opensimrs = {token:"{$_SESSION['token']}", url:"{?=url()?}", admin:"{?=ADMIN?}"};
     </script>
@@ -27,76 +19,183 @@
 
 <body>
 
-    <div id="wrapper">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-xl fixed-top navbar-light bg-white pmd-navbar pmd-z-depth-light-2">
+        <a href="javascript:void(0);" data-target="basicSidebar" data-placement="left" data-position="slidepush"
+            is-open="true" is-open-width="1300"
+            class="btn btn-sm pmd-btn-fab pmd-btn-flat pmd-ripple-effect pmd-sidebar-toggle humburger-menu">
+            <i class="material-icons md-dark md-inactive">menu</i>
+        </a>
+        <!-- Navbar Logo for Responsive view -->
+        <div class="navbar-header hide-large-desk p-0">
+            <a class="navbar-brand navbar-custom-brand" href="dashboard.html">
+                <img src="data:image/jpeg;base64,{?=base64_encode($opensimrs.logo)?}" alt="Logo" class="img-fluid" width="30"> {$opensimrs.title}
+            </a>
+        </div>
+        <!-- Page Title for Desktop View -->
+        <div class="show-large-desk">
+            <h1 class="h2 mb-0">{$module.name}</h1>
+        </div>
+        <!-- Right Side Menu -->
+        <div class="pmd-navbar-right-icon ml-auto">
+            <!-- Global Search Field -->
+            <div class="nav-item d-inline-block global-search">
+                <a class="btn btn-sm pmd-btn-fab pmd-btn-flat search-form-open" href="javascript:void(0);">
+                    <i class="material-icons md-dark md-inactive">search</i>
+                </a>
+                <form class="search-form" method="POST" id="searchform" action="search-results.html">
+                    <div class="form-group pmd-textfield mb-0 pmd-textfield-outline">
+                        <input type="text" class="form-control pr-5" id="globalSearch" aria-describedby="globalSearch"
+                            placeholder="Search & Enter">
+                        <a class="btn btn-sm pmd-btn-fab pmd-btn-flat search-form-close" href="javascript:void(0);">
+                            <i class="material-icons md-dark md-inactive">close</i>
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <!-- User Info Dropdown  -->
+            <div class="nav-item dropdown pmd-dropdown d-none d-md-inline-block">
+                <a class="btn btn-sm pmd-btn-flat" href="javascript:void(0);" id="userProfileDropdown"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="media align-items-center">
+                        <div class="media-left">
+                            <img src="{$opensimrs.avatarURL}" alt="Admin Picture"
+                                class="pmd-icon-circle pmd-icon-xs mr-2">
+                        </div>
+                        <div class="media-body">
+                            <b class="d-inline-flex mr-2 text-dark">{$opensimrs.nama}</b>
+                        </div>
+                        <div class="media-right">
+                            <i class="material-icons md-18 md-inactive md-dark">expand_more</i>
+                        </div>
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right notifications-dropdown user-profile-dropdown"
+                    aria-labelledby="userProfileDropdown">
+                    <div class="card pmd-card mb-0">
+                        <div class="list-group pmd-list pmd-list-border m-0">
 
-        <aside id="sidebar-wrapper">
-            <div class="user-info">
-                <div class="image">
-                    <img src="{$opensimrs.avatarURL}" width="48" height="48" alt="User" />
-                </div>
-                <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{?=$opensimrs.nama ?}</div>
-                    <div class="email">{?=$opensimrs.username ?}</div>
+                            <a class="d-flex flex-row list-group-item text-dark" href="settings.html">
+                                <i class="material-icons pmd-xs mr-2">settings</i>
+                                <span class="media-body align-self-center">Settings</span>
+                            </a>
+                            <a class="d-flex flex-row list-group-item text-dark" href="faqs.html">
+                                <i class="material-icons pmd-xs mr-2">help</i>
+                                <span class="media-body align-self-center">FAQs</span>
+                            </a>
+                            <a class="d-flex flex-row list-group-item text-danger" href="{?=url(ADMIN.'/logout')?}">
+                                <i class="material-icons pmd-xs mr-2">logout</i>
+                                <span class="media-body align-self-center">Logout</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <ul class="sidebar-nav">
-            {loop: $opensimrs.nav}
-                <li class="{$value.active}" data-module="{$value.dir}">
-                    <a href="{$value.url}"><i class="fa fa-{$value.icon}"></i>{$value.name}</a>
-                    {if: !empty($value.subnav)}
-                    <ul class="collapse">
-                        {loop: $value.subnav}
-                        <li class="{$value.active}"><a href="{$value.url}">{$value.name}</a></li>
-                        {/loop}
-                    </ul>
-                    {/if}
-                </li>
-            {/loop}
-            </ul>
-        </aside>
+        </div>
+        <!-- End Right Side Menu -->
+    </nav>
+    <!-- End Navbar -->
 
-        <div id="navbar-wrapper">
-            <nav class="navbar navbar-inverse">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a href="#" id="sidebar-toggle"><i class="fa fa-bars"></i></a> <div class="navbar-brand"><a href="{$opensimrs.path}/admin/"><span class="first">{$opensimrs.title}</span></a></div>
+    <!-- Sidebar overlay -->
+    <div class="pmd-sidebar-overlay"></div>
+
+    <!-- Left Sidebar -->
+    <aside id="basicSidebar"
+        class="pmd-sidebar pmd-sidebar-dark bg-primary pmd-sidebar-slide-push pmd-sidebar-open  pmd-z-depth-light-2"
+        role="navigation">
+        <div class="navbar-header fixed-top">
+            <!-- Navbar Logo for Desktop view -->
+            <a class="navbar-brand navbar-custom-brand d-none d-md-block" style="text-align:left !important;" href="{?=url(ADMIN)?}">
+                <img src="{?=url(THEMES.'/admin/assets/images/logo-yaski.png')?}" alt="Logo" class="img-fluid" width="40"> <span class="text-white">Khanza <strong>LITE</strong></span>
+            </a>
+            <!-- User Info For Responsive View -->
+            <div class="pmd-user-info d-block d-md-none text-center">
+                <a href="javascript:void(0);" class="btn-user">
+                    <img class="rounded-circle" src="{$opensimrs.avatarURL}" width="56" height="56" alt="avatar">
+                    <h3 class="pmd-title m-0 text-white">{$opensimrs.nama}</h3>
+                </a>
+            </div>
+        </div>
+
+        <ul class="nav flex-column pmd-sidebar-nav">
+        {loop: $opensimrs.nav}
+            <li class="nav-item" data-module="{$value.dir}">
+                {if: empty($value.subnav)}
+                <a class="nav-link {$value.active} pmd-ripple-effect" href="{$value.url}">
+                  <i class="material-icons pmd-list-icon pmd-sm md-light">{$value.icon}</i>
+                  <span class="media-body">{$value.name}</span>
+                </a>
+                {else}
+                <a class="nav-link collapsed {$value.active}" data-toggle="collapse" href="#{$value.dir}">
+                    <i class="material-icons pmd-list-icon pmd-sm md-light">{$value.icon}</i>
+                    <span class="media-body">{$value.name}</span>
+                    <div class="media-right media-bottom">
+                        <i class="material-icons md-18 pmd-accordion-arrow">expand_more</i>
                     </div>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="hello hidden-sm hidden-xs"><a href="#"><i class="fa fa-fw fa-user-md"></i> <span>{?= sprintf('Apa kabar <strong>%s</strong>?', $opensimrs.nama) ?}</span></a></li>
-                        <li class="hidden-sm hidden-xs"><a href="{?=url('')?}" target="_blank" class="fa fa-globe" data-toggle="tooltip" data-placement="bottom" title="Tampilkan"></a></li>
-                        <li><a href="{?=url(ADMIN.'/logout')?}" class="fa fa-power-off" data-toggle="tooltip" data-placement="bottom" title="Keluar"></a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+                </a>
+                {/if}
+                {if: !empty($value.subnav)}
+                <ul class="collapse {if: $value.active=='active'}show{/if}" id="{$value.dir}" data-parent="#basicSidebar" aria-expanded="false">
+                    {loop: $value.subnav}
+                    <li class="nav-item">
+                      <a class="nav-link {$value.active}" href="{$value.url}">{$value.name}</a>
+                    </li>
+                    {/loop}
+                </ul>
+                {/if}
+            </li>
+        {/loop}
+        </ul>
 
-		{if: $opensimrs.notify}
-        <div id="notify" class="alert alert-{$opensimrs.notify.type} alert-dismissible fade in" role="alert">
-            {$opensimrs.notify.text}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-		{/if}
+    </aside>
+    <!-- End Left Sidebar -->
 
-        <section id="content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2 class="content-title">{$module.name}</h2>
-                        {$module.content}
+    <!-- Module Content -->
+    {$module.content}
+
+    <!----------------------------
+		Footer
+ 	----------------------------->
+    <footer class="pmd-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 align-self-center">
+                    <div class="pmd-site-info">
+                        © <span class="auto-update-year">{?=date('Y')?}</span> <a href="https://basoro.org/"
+      										target="_blank"><strong>Khanza Lite. </strong></a>Made with <img src="{?=url(THEMES.'/admin/assets/images/hearts.png')?}"/> by <a href="https://basoro.id/" target="_blank"><b>drg. Basoro</b></a>
                     </div>
                 </div>
             </div>
-        </section>
-
-    </div>
-
-    <footer class="hidden-xs hidden-sm hidden-md">
-        Dikembangkan dengan <i class="fa fa-heart text-danger"></i> oleh <a href="https://basoro.id/" target="_blank"><b>drg. F. Basoro</b></a>
+        </div> <!-- End Container -->
     </footer>
+    <!-- End Footer -->
 
-    <script src="{?= url(THEMES.'/admin/js/scripts.js?v='.$opensimrs.version) ?}"></script>
+
+    <!-- build:include snippets/js-files-index.html -->
+    <!-- /build -->
+
+    <!-- build:remove -->
+    <!--Admin js-->
+    <script type="text/javascript" src="{?=url(THEMES.'/admin/assets/js/ehealthcare-admin-compress.min.js')?}"></script>
+    <script type="text/javascript" src="{?=url(THEMES.'/admin/assets/selectator.js')?}"></script>
+    <script type="text/javascript">
+    $('select').each(function () {
+        var options = {
+            useDimmer: true,
+            useSearch: true,
+            labels: {
+                search: '...'
+            }
+        };
+        $.each($(this).data(), function (key, value) {
+            options[key] = value;
+        });
+        $(this).selectator(options);
+    });
+    </script>
+    <!-- /build -->
     {loop: $opensimrs.footer}{$value}{/loop}
+
 </body>
+
 </html>

@@ -1,55 +1,150 @@
-$(document).ready(function() {
-    var defaultColors = [
-        "rgba(131, 58, 163, 0.5)", "rgba(201, 216, 88, 0.5)", "rgba(5, 183, 196, 0.5)", "rgba(139, 20, 229, 0.5)", "rgba(85, 150, 219, 0.5)", "rgba(46, 151, 155, 0.5)", "rgba(169, 99, 226, 0.5)", "rgba(90, 27, 209, 0.5)", "rgba(123, 160, 3, 0.5)", "rgba(161, 95, 226, 0.5)", "rgba(201, 59, 214, 0.5)", "rgba(9, 102, 104, 0.5)", "rgba(81, 118, 186, 0.5)", "rgba(220, 63, 252, 0.5)", "rgba(252, 63, 82, 0.5)", "rgba(97, 249, 176, 0.5)", "rgba(232, 30, 154, 0.5)", "rgba(239, 7, 231, 0.5)", "rgba(107, 239, 211, 0.5)", "rgba(168, 10, 23, 0.5)", "rgba(221, 90, 99, 0.5)", "rgba(35, 102, 237, 0.5)", "rgba(15, 226, 216, 0.5)", "rgba(63, 122, 211, 0.5)", "rgba(226, 88, 86, 0.5)", "rgba(232, 98, 85, 0.5)", "rgba(168, 6, 226, 0.5)"
-    ];
-    var charts = [];
-    $('[data-chart]').each(function() {
-        var name = $(this).attr('id') || false;
-        
-        if(name === false)
-            return;
-
-        var type = $(this).data('chart');
-        var labels = $(this).data('labels');
-        var data = $(this).data('datasets');
-
-        var options = {};
-        if(type == 'bar')
-        {
-            options = Object.assign(options, {scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }});
-        }
-        
-        var backgroundColor = function() {
-            if(type == 'pie')
-                return defaultColors;
-            else
-                return 'rgba(248, 190, 18, 0.2)';
-        }
-        var datasets = [];
-        data = eval(data);
-        data.forEach(function(e) {
-            datasets.push(Object.assign({
-                label: '',
-                data: [],
-                borderWidth: 1,
-                backgroundColor: backgroundColor()
-            }, e))
-        });
-
-        var ctx = document.getElementById(name);
-        var myChart = new Chart(ctx, {
-            type: type,
-            data: {
-                labels: labels,
-                datasets: datasets
+$(function () {
+    //line chart
+    var ctx = document.getElementById("line-chartcanvas");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["{?= implode('","', $stats.poliChart.labels) ?}"],
+            datasets: [{
+                    label: "Pasien",
+                    borderColor: "#34316E",
+                    borderWidth: "2",
+                    backgroundColor: "rgba(30, 30, 45, 0.2)",
+                    pointHighlightStroke: "#1e1e2d",
+                    pointRadius: 0,
+                    data: [{?= implode(',', $stats.poliChart.visits) ?}],
+                }
+            ]
+        },
+        options: {
+            legend: {
+                display: false
             },
-            options: options
-        });
+            responsive: true,
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            maintainAspectRatio: false
+        }
+    });
+
+    //Medical treatment chart
+    var ctx2 = document.getElementById("medical-treatment-chart");
+    var myChart2 = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: ["{?= implode('","', $stats.RanapTahunChart.labels) ?}"],
+            datasets: [
+            {
+                label: "Dirawat",
+                borderColor: "#F58634",
+                borderWidth: "2",
+                backgroundColor: "transparent",
+                pointHighlightStroke: "#1e1e2d",
+                pointRadius: 0,
+                data: [{?= implode(',', $stats.RanapTahunChart.visits) ?}],
+            },
+            {
+                label: "Dirujuk",
+                borderColor: "#34316E",
+                borderWidth: "2",
+                backgroundColor: "transparent",
+                pointHighlightStroke: "#1e1e2d",
+                pointRadius: 0,
+                data: [{?= implode(',', $stats.RujukTahunChart.visits) ?}],
+            }
+            ]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    //Heart surgery chart
+    var ctx1 = document.getElementById("heart-surgery-chart");
+    var myChart1 = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: ["{?= implode('","', $stats.KunjunganTahunChart.labels) ?}"],
+            datasets: [
+            {
+                label: "{?=date('Y')?}",
+                borderColor: "#F58634",
+                borderWidth: "2",
+                backgroundColor: "transparent",
+                pointHighlightStroke: "#1e1e2d",
+                pointRadius: 0,
+                data: [{?= implode(',', $stats.KunjunganTahunChart.visits) ?}],
+            }
+            ]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            responsive: true,
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            maintainAspectRatio: false
+        }
+    });
+
+    //Toal Revenue Doughnut chart
+    var ctx2 = document.getElementById("total-revenue-chart");
+    var myChart2 = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                "Tunai",
+                "BPJS",
+                "Lain-Lain"
+            ],
+            datasets: [{
+                backgroundColor: ["#4caf50", "#34316E", "#F58634"],
+                pointRadius: 0,
+                data: [{$stats.tunai.count}, {$stats.bpjs.count}, {$stats.lainnya.count}],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+});
+
+$(document).ready(function () {
+    // Edit Hospital Info
+    $('.edit-hospital-link').on('click', function (e) {
+        e.preventDefault();
+        $(".view-hospital-fields").hide();
+        $(".edit-hospital-fields").show();
+    });
+    $('#update-hospital-info, #cancel-hospital-info').on('click', function (e) {
+        e.preventDefault();
+        $(".view-hospital-fields").show();
+        $(".edit-hospital-fields").hide();
     });
 });

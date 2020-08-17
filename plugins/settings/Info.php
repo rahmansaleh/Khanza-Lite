@@ -6,7 +6,7 @@ return [
     'author'        =>  'Basoro',
     'version'       =>  '1.0',
     'compatibility' =>  '3.*',
-    'icon'          =>  'wrench',
+    'icon'          =>  'settings',
 
     'install'       =>  function () use ($core) {
         $core->db()->pdo()->exec("CREATE TABLE IF NOT EXISTS `lite_options` (

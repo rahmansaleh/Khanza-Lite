@@ -24,39 +24,14 @@ class Admin extends AdminModule
     public function getManage($page = 1)
     {
         $this->_addHeaderFiles();
-        $perpage = '10';
-        $phrase = '';
-        if(isset($_GET['s']))
-          $phrase = $_GET['s'];
-
-        // pagination
-        $totalRecords = $this->db('pasien')
-          ->select('no_rkm_medis')
-          ->like('no_rkm_medis', '%'.$phrase.'%')
-          ->orLike('nm_pasien', '%'.$phrase.'%')
-          ->orLike('no_ktp', '%'.$phrase.'%')
-          ->orLike('no_peserta', '%'.$phrase.'%')
-          ->toArray();
-        $pagination = new \Systems\Lib\Pagination($page, count($totalRecords), 10, url([ADMIN, 'pasien', 'manage', '%d']));
-        $this->assign['pagination'] = $pagination->nav('pagination','5');
-        $this->assign['totalRecords'] = $totalRecords;
-
-        // list
-        $offset = $pagination->offset();
-        $rows = $this->db('pasien')
-          ->like('no_rkm_medis', '%'.$phrase.'%')
-          ->orLike('nm_pasien', '%'.$phrase.'%')
-          ->orLike('no_ktp', '%'.$phrase.'%')
-          ->orLike('no_peserta', '%'.$phrase.'%')
-          ->offset($offset)
-          ->limit($perpage)
-          ->desc('no_rkm_medis')
-          ->toArray();
+        $rows = $this->db('pasien')->limit('100')->toArray();
 
         $this->assign['list'] = [];
+        $i = 1;
         if (count($rows)) {
             foreach ($rows as $row) {
                 $row = htmlspecialchars_array($row);
+                $row['no'] = $i++;
                 $row['editURL'] = url([ADMIN, 'pasien', 'edit', $row['no_rkm_medis']]);
                 $row['delURL']  = url([ADMIN, 'pasien', 'delete', $row['no_rkm_medis']]);
                 $row['viewURL'] = url([ADMIN, 'pasien', 'view', $row['no_rkm_medis']]);
@@ -134,7 +109,7 @@ class Admin extends AdminModule
         $this->assign['kelurahan']['nm_kel'] = '';
 
         $this->assign['manageURL'] = url([ADMIN, 'pasien', 'manage']);
-        $this->assign['fotoURL'] = url(MODULES.'/pasien/img/default.png');
+        $this->assign['fotoURL'] = url(MODULES.'/pasien/img/image-placeholder.jpg');
 
         return $this->draw('form.html', ['pasien' => $this->assign]);
     }
@@ -1112,32 +1087,19 @@ RR: '.$pemeriksaan_ralan['respirasi'].' /mnt';
     public function getJavascript()
     {
         header('Content-type: text/javascript');
-        echo $this->draw(MODULES.'/pasien/js/admin/pasien.js');
+        echo $this->draw(MODULES.'/pasien/js/admin/app.js');
         exit();
     }
 
     public function getCss()
     {
         header('Content-type: text/css');
-        echo $this->draw(MODULES.'/pasien/css/admin/pasien.css');
+        echo $this->draw(MODULES.'/pasien/css/admin/app.css');
         exit();
     }
 
     private function _addHeaderFiles()
     {
-        // CSS
-        $this->core->addCSS(url('assets/css/jquery-ui.css'));
-        $this->core->addCSS(url('assets/css/dataTables.bootstrap.min.css'));
-        $this->core->addCSS(url('assets/jscripts/lightbox/lightbox.min.css'));
-
-        // JS
-        $this->core->addJS(url('assets/jscripts/jquery-ui.js'), 'footer');
-        $this->core->addJS(url('assets/jscripts/lightbox/lightbox.min.js'));
-        $this->core->addJS(url('assets/jscripts/jquery.dataTables.min.js'), 'footer');
-        $this->core->addJS(url('assets/jscripts/dataTables.bootstrap.min.js'), 'footer');
-
-        // MODULE SCRIPTS
-        $this->core->addCSS(url([ADMIN, 'pasien', 'css']));
         $this->core->addJS(url([ADMIN, 'pasien', 'javascript']), 'footer');
     }
 

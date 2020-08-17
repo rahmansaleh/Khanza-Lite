@@ -1,103 +1,209 @@
-<article class="row">
-    <div class="col-sm-4">
+<!----------------------------
+Content Area
+----------------------------->
+<div id="content" class="pmd-content content-area dashboard">
+    <!-- Page Title for Responsive View -->
+    <h1 class="h2 hide-large-desk">Dashboard</h1>
 
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">Total Pasien</h3>
-              </div>
-              <div class="panel-body total_pasien">
-                    <h1 class="text-center stat-bold">{?= $stats.getPasiens ?}</h1>
-              </div>
-        </div>
-
-    </div>
-    <div class="col-sm-4">
-
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">Total Kunjungan</h3>
-              </div>
-              <div class="panel-body">
-                    <h1 class="text-center stat-bold">{?= $stats.getVisities ?}</h1>
-              </div>
-        </div>
-
-    </div>
-    <div class="col-sm-4">
-
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">Pasien Hari Ini</h3>
-              </div>
-              <div class="panel-body">
-                    <h1 class="text-center stat-bold">{?= $stats.getCurrentVisities ?}</h1>
-              </div>
-        </div>
-
-    </div>
-</article>
-
-<article class="row">
-    <div class="col-lg-12 col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Poliklinik Hari Ini</h3>
-            </div>
-            <div class="panel-body">
-                <canvas id="line-chartcanvas" height="350"></canvas>
+    <div class="row">
+        <!-- Patients Card Statistic  -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card pmd-card card-patients total-statistic">
+                <div class="card-body">
+                    <div class="media category-title">
+                        <i class="material-icons pmd-icon-circle pmd-md category-icon">event</i>
+                        <div class="media-body">
+                            <h4>Total Kunjungan</h4>
+                            <h2 class="display-4 d-flex align-items-center">{?= $stats.getVisities ?}
+                                <span class="text-danger card-subtitle category-percetange">
+                                    <i class="material-icons">arrow_drop_down</i>
+                                    (-12%)
+                                </span>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</article>
+        <!-- End Patients Card Statistic  -->
 
-<article class="row">
-    <div class="col-lg-4 col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Status Perawatan {?=date('Y')?}</h3>
-            </div>
-            <div class="panel-body">
-                <canvas id="medical-treatment-chart" height="200"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Kunjungan Tahun {?=date('Y')?}</h3>
-            </div>
-            <div class="panel-body">
-                <canvas id="heart-surgery-chart" height="200"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Cara Bayar Tahun {?=date('Y')?}</h3>
-            </div>
-            <div class="panel-body">
-                <canvas id="total-revenue-chart" height="200"></canvas>
+        <!-- Department Card Statistic  -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card pmd-card card-department total-statistic">
+                <div class="card-body">
+                    <div class="media category-title">
+                        <i class="material-icons pmd-icon-circle pmd-md category-icon">wheelchair_pickup</i>
+                        <div class="media-body">
+                            <h4>Kunjungan Tahun Ini</h4>
+                            <h2 class="display-4 d-flex align-items-center">{?= $stats.getYearVisities ?}
+                                <span class="text-success card-subtitle category-percetange">
+                                    <i class="material-icons">arrow_drop_up</i>
+                                    (+12%)
+                                </span>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</article>
+        <!-- End Department Card Statistic  -->
 
-<article class="row">
-    <!-- New Patients -->
-    <div class="col-md-8 col-lg-8">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <a class="pull-right badge" href="#" style="background-color:#ffcc00;">Semua</a>
-                <h3 class="panel-title">Pasien Terbaru Hari Ini</h3>
+        <!-- Doctor Card Statistic  -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card pmd-card card-doctor total-statistic">
+                <div class="card-body">
+                    <div class="media category-title">
+                        <i class="material-icons pmd-icon-circle pmd-md category-icon">airline_seat_recline_normal</i>
+                        <div class="media-body">
+                            <h4>Kunjungan Bulan Ini</h4>
+                            <h2 class="display-4 d-flex align-items-center">{?= $stats.getMonthVisities ?}
+                                <span class="text-danger card-subtitle category-percetange">
+                                    <i class="material-icons">arrow_drop_down</i>
+                                    (-8%)
+                                </span>
+                            </h2>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div class="panel-body">
-                <div class="table-responsive no-margin">
-                    <table class="table table-striped">
+        </div>
+        <!-- End Doctor Card Statistic  -->
+
+        <!-- Patients Card Statistic  -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card pmd-card card-appointment total-statistic">
+                <div class="card-body">
+                    <div class="media category-title">
+                        <i class="material-icons pmd-icon-circle pmd-md category-icon">airline_seat_recline_extra</i>
+                        <div class="media-body">
+                            <h4>Kunjungan Hari Ini</h4>
+                            <h2 class="display-4 d-flex align-items-center">{?= $stats.getCurrentVisities ?}
+                                <span class="text-danger card-subtitle category-percetange">
+                                    <i class="material-icons">arrow_drop_down</i>
+                                    (-12%)
+                                </span>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Patients Card Statistic  -->
+
+    </div>
+
+    <div class="row">
+
+        <!-- Total Progress Chart -->
+        <div class="col-md-12">
+            <div class="card pmd-card">
+                <div class="card-header border-bottom">
+                    <h3 class="card-title pmd-title-separator">Poliklinik Hari Ini</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Chart -->
+                    <div class="chart-container">
+                        <canvas id="line-chartcanvas" height="300"></canvas>
+                    </div>
+                    <!--End Chart -->
+                </div>
+            </div>
+        </div>
+        <!-- End Total Progress Chart -->
+
+    </div>
+
+    <div class="row">
+
+        <!-- Heart Surgeries Chart -->
+        <div class="col-xl-4 col-md-12">
+            <div class="card pmd-card">
+                <div class="card-header border-bottom pmd-title-separator">
+                    <div class="media justify-content-between align-items-center">
+                        <h3 class="card-title media-body mb-0">Status Rawat Th. {?=date('Y')?}</h3>
+                        <span class="text-success card-subtitle category-percetange">
+                            <i class="material-icons">arrow_drop_up</i>
+                            (+12%)
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Chart -->
+                    <div class="chart-container">
+                        <canvas id="medical-treatment-chart" height="200"></canvas>
+                    </div>
+                    <!--End Chart -->
+                </div>
+            </div>
+        </div>
+        <!-- End Heart Surgeries Chart -->
+
+        <!-- Medical Treatment Chart -->
+        <div class="col-xl-4 col-md-12">
+            <div class="card pmd-card">
+                <div class="card-header border-bottom pmd-title-separator">
+                    <div class="media justify-content-between align-items-center">
+                        <h3 class="card-title media-body mb-0">Kunjungan Th. {?=date('Y')?}</h3>
+                        <span class="text-danger card-subtitle category-percetange">
+                            <i class="material-icons">arrow_drop_down</i>
+                            (-15%)
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Chart -->
+                    <div class="chart-container">
+                        <canvas id="heart-surgery-chart" height="200"></canvas>
+                    </div>
+                    <!--End Chart -->
+                </div>
+            </div>
+        </div>
+        <!-- End Medical Treatment Chart -->
+
+        <!-- Total Revenue Chart -->
+        <div class="col-xl-4 col-md-12">
+            <div class="card pmd-card">
+                <div class="card-header border-bottom pmd-title-separator">
+                    <div class="media justify-content-between align-items-center">
+                        <h3 class="card-title media-body mb-0">Cara Bayar Th. {?=date('Y')?}</h3>
+                        <span class="text-success card-subtitle category-percetange">
+                            <i class="material-icons">arrow_drop_up</i>
+                            (+12%)
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Chart -->
+                    <div class="chart-container">
+                        <canvas id="total-revenue-chart" height="200"></canvas>
+                    </div>
+                    <!--End Chart -->
+                </div>
+            </div>
+        </div>
+        <!-- End Total Revenue Chart -->
+
+    </div>
+
+    <div class="row">
+
+        <!-- New Patients -->
+        <div class="col-md-12 col-xl-8">
+            <div class="card pmd-card">
+                <div class="card-header border-bottom media justify-content-between">
+                    <div class="media-body">
+                        <h3 class="card-title pmd-title-separator">Pasien Baru Hari Ini</h3>
+                    </div>
+                    <a class="btn pmd-btn-raised btn-primary pmd-ripple-effect btn-sm" href="patient-list.html">Semua</a>
+                </div>
+                <div class="card-body">
+                    <table cellspacing="0" cellpadding="0" class="table pmd-table pmd-table-card">
                         <thead>
                             <tr>
                                 <th>No. RM</th>
-                                <th>Name</th>
+                                <th>Nama</th>
                                 <th>Pekerjaan</th>
                                 <th>Cara Bayar</th>
                             </tr>
@@ -105,13 +211,18 @@
                         <tbody>
                             {loop: $pasien}
                             <tr>
-                                <td>{$value.no_rkm_medis}</td>
-                                <td>
-                                    <img src="{?=url(MODULES.'/pasien/img/'.$value.jk.'.png')?}" alt="Profile Image" width="40" height="40" style="border-radius:50%;">
-                                    <div style="display:inline;padding-left:10px;padding-top:10px;">{$value.nm_pasien}</div>
+                                <td data-title="No. RM">{$value.no_rkm_medis}</td>
+                                <td data-title="Nama">
+                                    <div class="media align-items-center">
+                                        <img src="{?=url(MODULES.'/pasien/img/'.$value.jk.'.png')?}" alt="Profile Image"
+                                            class="pmd-avatar-list-img" width="40" height="40">
+                                        <div class="media-body">{$value.nm_pasien}</div>
+                                    </div>
                                 </td>
-                                <td>{$value.pekerjaan}</td>
-                                <td><span class="badge {if: $value.kd_pj == 'BPJ'}badge-success{/if}">{$value.png_jawab}</span></td>
+                                <td data-title="Pekerjaan">{$value.pekerjaan}</td>
+                                <td data-title="Cara Bayar">
+                                    <span class="badge badge-pill pmd-badge-outline-{if: $value.kd_pj == 'BPJ'}success{elseif: $value.kd_pj == 'UMU'}secondary{else}light{/if}">{$value.png_jawab}</span>
+                                </td>
                             </tr>
                             {/loop}
                         </tbody>
@@ -119,168 +230,36 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End New Patients -->
+        <!-- End New Patients -->
 
-    <!-- Doctors List -->
-    <div class="col-md-4 col-lg-4">
-        <div class="panel panel-default doctor-list">
-            <div class="panel-heading">
-                <a class="pull-right badge" href="#">Semua</a>
-                <h3 class="panel-title">Jadwal Dokter Hari Ini</h3>
-            </div>
-            <div class="list-group">
-                {loop: $dokter}
-                <a class="list-group-item" href="javascript:void(0);">
-                    <img src="{?=url(MODULES.'/pasien/img/default.png')?}" style="border-radius:50%;float:left;" width="40">
-                    <div style="display:inline-block;padding-left:10px;">
-                        <b>{$value.nm_dokter}</b><br>
-                        {$value.nm_sps}
+        <!-- Doctors List -->
+        <div class="col-md-12 col-xl-4">
+            <div class="card pmd-card doctor-list">
+                <div class="card-header border-bottom media justify-content-between">
+                    <div class="media-body">
+                        <h3 class="card-title pmd-title-separator">Jadwal Dokter Hari Ini</h3>
                     </div>
-                </a>
-                {/loop}
+                    <a class="btn pmd-btn-raised btn-primary pmd-ripple-effect btn-sm" href="doctor-list.html">Semua</a>
+                </div>
+
+                <div class="list-group pmd-list">
+                    {loop: $dokter}
+                    <a class="list-group-item d-flex flex-row" href="javascript:void(0);">
+                        <span class="pmd-avatar-list-img">
+                            <img alt="40x40" data-src="holder.js/40x40" class="img-fluid"
+                                src="{?=url(MODULES.'/pasien/img/'.$value.jk.'.png')?}" data-holder-rendered="true">
+                        </span>
+                        <div class="media-body">
+                            <h5 class="pmd-list-title">{$value.nm_dokter}</h5>
+                            <p class="pmd-list-subtitle">{$value.nm_sps}</p>
+                        </div>
+                    </a>
+                    {/loop}
+                </div>
             </div>
         </div>
+        <!-- End Doctors List -->
+
     </div>
-    <!-- End Doctors List -->
 
-</article>
-
-<script type="text/javascript">
-    $(function () {
-        //line chart
-        var ctx = document.getElementById("line-chartcanvas");
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ["{?= implode('","', $stats.poliChart.labels) ?}"],
-                datasets: [{
-                        label: "Pasien",
-                        borderColor: "#34316E",
-                        borderWidth: "2",
-                        backgroundColor: "rgba(30, 30, 45, 0.2)",
-                        pointHighlightStroke: "#1e1e2d",
-                        pointRadius: 0,
-                        data: [{?= implode(',', $stats.poliChart.visits) ?}],
-                    }
-                ]
-            },
-            options: {
-                legend: {
-                    display: false
-                },
-                responsive: true,
-                tooltips: {
-                    mode: 'index',
-                    intersect: false
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                maintainAspectRatio: false
-            }
-        });
-
-        //Medical treatment chart
-        var ctx2 = document.getElementById("medical-treatment-chart");
-        var myChart2 = new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: ["{?= implode('","', $stats.RanapTahunChart.labels) ?}"],
-                datasets: [
-                {
-                    label: "Dirawat",
-                    borderColor: "#F58634",
-                    borderWidth: "2",
-                    backgroundColor: "transparent",
-                    pointHighlightStroke: "#1e1e2d",
-                    pointRadius: 0,
-                    data: [{?= implode(',', $stats.RanapTahunChart.visits) ?}],
-                },
-                {
-                    label: "Dirujuk",
-                    borderColor: "#34316E",
-                    borderWidth: "2",
-                    backgroundColor: "transparent",
-                    pointHighlightStroke: "#1e1e2d",
-                    pointRadius: 0,
-                    data: [{?= implode(',', $stats.RujukTahunChart.visits) ?}],
-                }
-                ]
-            },
-            options: {
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
-
-        //Heart surgery chart
-        var ctx1 = document.getElementById("heart-surgery-chart");
-        var myChart1 = new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: ["{?= implode('","', $stats.KunjunganTahunChart.labels) ?}"],
-                datasets: [
-                {
-                    label: "{?=date('Y')?}",
-                    borderColor: "#F58634",
-                    borderWidth: "2",
-                    backgroundColor: "transparent",
-                    pointHighlightStroke: "#1e1e2d",
-                    pointRadius: 0,
-                    data: [{?= implode(',', $stats.KunjunganTahunChart.visits) ?}],
-                }
-                ]
-            },
-            options: {
-                legend: {
-                    display: false
-                },
-                responsive: true,
-                tooltips: {
-                    mode: 'index',
-                    intersect: false
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
-                },
-                maintainAspectRatio: false
-            }
-        });
-
-        //Toal Revenue Doughnut chart
-        var ctx2 = document.getElementById("total-revenue-chart");
-        var myChart2 = new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-                labels: [
-                    "Tunai",
-                    "BPJS",
-                    "Lain-Lain"
-                ],
-                datasets: [{
-                    backgroundColor: ["#4caf50", "#34316E", "#F58634"],
-                    pointRadius: 0,
-                    data: [{$stats.tunai.count}, {$stats.bpjs.count}, {$stats.lainnya.count}],
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
-    });
-</script>
+</div>

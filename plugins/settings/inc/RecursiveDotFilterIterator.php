@@ -1,5 +1,5 @@
 <?php
-    namespace Plugins\Settings\Inc;
+namespace Plugins\Settings\Inc;
 
 class RecursiveDotFilterIterator extends \RecursiveFilterIterator
 {

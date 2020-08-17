@@ -10,11 +10,11 @@ define('DBHOST', 'localhost');
 define('DBPORT', '3306');
 define('DBUSER', 'root');
 define('DBPASS', '');
-define('DBNAME', 'sik');
+define('DBNAME', 'sik_rsas');
 
 // URL Webapps
 define('WEBAPPS_URL', '');
-define('WEBAPPS_PATH', BASE_DIR . '/webapps');
+define('WEBAPPS_PATH', BASE_DIR . '/../webapps');
 
 // Admin url path
 define('ADMIN', 'admin');
@@ -44,4 +44,4 @@ define('BASIC_MODULES', serialize([
 ]));
 
 // Developer mode
-define('DEV_MODE', false);
+define('DEV_MODE', true);

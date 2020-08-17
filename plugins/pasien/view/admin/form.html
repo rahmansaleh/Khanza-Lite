@@ -1,3 +1,374 @@
+<!----------------------------
+Content Area
+----------------------------->
+<div id="content" class="pmd-content content-area">
+		<!-- Page Title for Responsive View -->
+		<h1 class="h2 hide-large-desk">Add Patient</h1>
+
+		<!-- Breadcrumb -->
+		<nav aria-label="breadcrumb">
+				<ol class="breadcrumb pmd-breadcrumb ">
+						<li class="breadcrumb-item">
+								<a href="dashboard.html">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item">
+								<a href="patient-list.html">Pasien</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">Tambah Baru</li>
+				</ol>
+		</nav>
+		<!-- End Breadcrumb -->
+
+		<div class="page-content profile-view">
+				<!--Tab -->
+				<div class="pmd-tabs">
+						<ul class="nav nav-tabs" role="tablist">
+								<li class="nav-item"><a class="nav-link active" href="#basicInfo" aria-controls="basicInfo"
+												role="tab" data-toggle="tab">Data Pasien</a></li>
+								<li class="nav-item"><a class="nav-link" href="#documents" aria-controls="documents" role="tab"
+												data-toggle="tab">Berkas Pasien</a></li>
+						</ul>
+				</div>
+				<div class="card pmd-card">
+						<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="basicInfo">
+										<!-- Form | Add Patient Information -->
+										<form class="" method="post">
+												<div class="card-body">
+
+														<!-- Profile Image -->
+														<div class="pmd-detail-section">
+																<h3 class="card-title pmd-title-separator">Profile Image</h3>
+																<!-- File Upload Field -->
+																<div data-provides="fileinput"
+																		class="fileinput file-upload-140 rounded-circle mb-0">
+																		<div data-trigger="fileinput"
+																				class="fileinput-preview thumbnail img-fluid mb-0">
+																				<img src="{$pasien.fotoURL}" width="140"
+																						alt="profile avatar">
+																		</div>
+																		<div class="action-button">
+																				<span
+																						class="btn btn-secondary pmd-btn-fab btn-xs pmd-btn-raised btn-file pmd-ripple-effect">
+																						<span class="fileinput-new"><i
+																										class="material-icons pmd-xs">add</i></span>
+																						<span class="fileinput-exists"><i
+																										class="material-icons pmd-xs">mode_edit</i></span>
+																						<input type="file" name="...">
+																				</span>
+																				<a data-dismiss="fileinput"
+																						class="btn btn-danger btn-xs pmd-btn-fab pmd-ripple-effect pmd-btn-raised btn-file fileinput-exists"
+																						href="javascript:void(0);"><i
+																								class="material-icons pmd-xs">close</i></a>
+																		</div>
+																</div>
+														</div>
+
+														<!-- About -->
+														<div class="pmd-detail-section">
+																<h3 class="card-title pmd-title-separator">Informasi Pribadi</h3>
+																<div class="row">
+
+																		<div class="col-md-6 col-sm-6">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="patientID" class="">Nomor RM</label>
+																						<input type="email" class="form-control" id="patientID" name="patientID"
+																								value="XYZ-121" disabled>
+																				</div>
+																		</div>
+
+																		<div class="col-md-6 col-sm-6">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="lastName" class="">Nomor KTP</label>
+																						<input type="text" class="form-control" id="lastName" name="lastName"
+																								value="">
+																				</div>
+																		</div>
+
+																		<div class="col-md-6 col-sm-6">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="firstName" class="">Nama Lengkap</label>
+																						<input type="text" class="form-control" id="firstName" name="firstName"
+																								value="">
+																				</div>
+																		</div>
+
+																		<div class="col-md-6 col-sm-6">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="middleName" class="">Nama Ibu</label>
+																						<input type="text" class="form-control" id="middleName"
+																								name="middleName" value="">
+																				</div>
+																		</div>
+
+																		<div class="col-md-4 col-sm-12">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="emailID" class="">Tempat Lahir</label>
+																						<input type="email" class="form-control" id="emailID" name="emailID"
+																								value="">
+																				</div>
+																		</div>
+
+																		<div class="col-md-4 col-sm-12">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="birthDate" class="">Tanggal Lahir</label>
+																						<input type="text" class="form-control datepicker" id="birthDate" name="birthDate"
+																								value="">
+																				</div>
+																		</div>
+
+																		<div class="col-md-4 col-sm-12">
+																				<!-- Select Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="bloodGroup">Golongan Darah</label>
+																						<select class="custom-select" id="bloodGroup">
+																								<option></option>
+																								<option>A+</option>
+																								<option>A-</option>
+																								<option>B+</option>
+																								<option>B-</option>
+																								<option>AB</option>
+																								<option>o-</option>
+																								<option>o+</option>
+																						</select>
+																				</div>
+																		</div>
+
+																		<div class="col-md-12 col-sm-12">
+																				<!-- Radio buttons -->
+																				<div class="form-group">
+																						<label class="title-label">Jenis Kelamin</label>
+																						<div
+																								class="custom-control custom-radio pmd-radio custom-control-inline">
+																								<input type="radio" id="doctorMale" name="doctorGender"
+																										class="custom-control-input" checked>
+																								<label class="custom-control-label pmd-radio-ripple-effect"
+																										for="doctorMale">Male</label>
+																						</div>
+																						<div
+																								class="custom-control custom-radio pmd-radio custom-control-inline">
+																								<input type="radio" id="doctorFemale" name="doctorGender"
+																										class="custom-control-input">
+																								<label class="custom-control-label pmd-radio-ripple-effect"
+																										for="doctorFemale">Female</label>
+																						</div>
+																				</div>
+																		</div>
+
+																		<div class="col-md-3 col-sm-6">
+																				<!-- Select Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="stateName">State</label>
+																						<select class="custom-select" id="stateName">
+																								<option></option>
+																								<option>Texas</option>
+																								<option>Georgia</option>
+																								<option>Washington</option>
+																								<option>Florida</option>
+																								<option>Pennslyvania</option>
+																								<option>New York</option>
+																						</select>
+																				</div>
+																		</div>
+
+																		<div class="col-md-3 col-sm-6">
+																				<!-- Select Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="stateName">State</label>
+																						<select class="custom-select" id="stateName">
+																								<option></option>
+																								<option>Texas</option>
+																								<option>Georgia</option>
+																								<option>Washington</option>
+																								<option>Florida</option>
+																								<option>Pennslyvania</option>
+																								<option>New York</option>
+																						</select>
+																				</div>
+																		</div>
+
+																		<div class="col-md-3 col-sm-6">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="pincode" class="">Pincode</label>
+																						<input type="text" class="form-control" id="pincode" name="pincode"
+																								value="">
+																				</div>
+																		</div>
+																		<div class="col-md-3 col-sm-6">
+																				<!-- Select Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="countryName">Country</label>
+																						<select class="custom-select" id="countryName">
+																								<option></option>
+																								<option>United States</option>
+																								<option>India</option>
+																								<option>Australia</option>
+																								<option>Germany</option>
+																								<option>Japan</option>
+																						</select>
+																				</div>
+																		</div>
+
+																</div>
+														</div>
+
+														<!-- Contact Information -->
+														<div class="pmd-detail-section">
+																<h3 class="card-title pmd-title-separator">Contact Details</h3>
+																<div class="row">
+																		<div class="col-md-6">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="addressLine" class="">Address Line</label>
+																						<input type="text" class="form-control" id="addressLine"
+																								name="addressLine" value="">
+																				</div>
+																		</div>
+																		<div class="col-md-3 col-sm-6">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="cityName" class="">City</label>
+																						<input type="text" class="form-control" id="cityName" name="cityName"
+																								value="">
+																				</div>
+																		</div>
+																		<div class="col-md-3 col-sm-6">
+																				<!-- Text Input Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="pincode" class="">Pincode</label>
+																						<input type="text" class="form-control" id="pincode" name="pincode"
+																								value="">
+																				</div>
+																		</div>
+																		<div class="col-md-3 col-sm-6">
+																				<!-- Select Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="stateName">State</label>
+																						<select class="custom-select" id="stateName">
+																								<option></option>
+																								<option>Texas</option>
+																								<option>Georgia</option>
+																								<option>Washington</option>
+																								<option>Florida</option>
+																								<option>Pennslyvania</option>
+																								<option>New York</option>
+																						</select>
+																				</div>
+																		</div>
+																		<div class="col-md-3 col-sm-6">
+																				<!-- Select Field -->
+																				<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+																						<label for="countryName">Country</label>
+																						<select class="custom-select" id="countryName">
+																								<option></option>
+																								<option>United States</option>
+																								<option>India</option>
+																								<option>Australia</option>
+																								<option>Germany</option>
+																								<option>Japan</option>
+																						</select>
+																				</div>
+																		</div>
+																</div>
+														</div>
+												</div>
+
+												<!-- Form Actions -->
+												<div class="card-footer pmd-card-border">
+														<a href="patient-list.html"
+																class="btn pmd-btn-raised btn-primary pmd-ripple-effect mr-3">Save</a>
+														<button class="btn btn-outline-secondary pmd-ripple-effect">Reset</button>
+												</div>
+										</form>
+										<!-- End Form | Add Patient Information -->
+								</div>
+
+								<div role="tabpanel" class="tab-pane" id="documents">
+										<div class="card-body">
+												<!-- Documents -->
+												<div class="pmd-detail-section">
+														<div class="d-flex justify-content-between">
+																<h3 class="card-title pmd-title-separator">Documents</h3>
+																<a href="javascript:void(0);"
+																		class="btn pmd-ripple-effect btn-outline-primary pmd-btn-flat btn-sm pmd-btn-fab"
+																		title="Add" data-target="#upload_document_modal" data-toggle="modal">
+																		<i class="material-icons">add</i>
+																</a>
+														</div>
+
+														<div class="table-responsive">
+																<table class="table pmd-table pmd-table-card doc-table" id="table-propeller">
+																		<thead>
+																				<tr>
+																						<th>File Name</th>
+																						<th>Action</th>
+																				</tr>
+																		</thead>
+																		<tbody>
+																				<tr>
+																						<td colspan="2" class="text-center">
+																								<p class="no-message-found mb-0">No Records Found</p>
+																						</td>
+																				</tr>
+																		</tbody>
+																</table>
+														</div>
+
+												</div>
+										</div>
+								</div>
+						</div>
+				</div>
+				<!--End Tab-->
+		</div>
+</div>
+<!-- End Content Area -->
+
+<!----------------------------
+Modal | Document Upload
+----------------------------->
+<div tabindex="-1" class="modal pmd-modal" id="upload_document_modal" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header pmd-modal-border">
+								<h3 class="modal-title">Upload Document</h3>
+								<button aria-hidden="true" data-dismiss="modal" class="close" type="button">
+										<i class="material-icons">close</i>
+								</button>
+						</div>
+						<!-- Modal Body Content -->
+						<div class="modal-body mb-4">
+								<form>
+										<div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+												<label for="fileName">File Name</label>
+												<input id="fileName" class="form-control" type="text">
+										</div>
+										<div class="custom-file pmd-custom-file form-group">
+												<input type="file" class="custom-file-input" id="customFile">
+												<label class="custom-file-label" for="customFile">Choose file</label>
+										</div>
+
+										<a href="javascript:void(0);" class="btn pmd-btn-raised btn-primary pmd-ripple-effect mr-2"
+												title="Upload" data-dismiss="modal">Upload</a>
+										<a href="javascript:void(0);" class="btn btn-outline-secondary pmd-ripple-effect" title="Cancel"
+												data-dismiss="modal">Cancel</a>
+								</form>
+						</div>
+				</div>
+		</div>
+</div>
+<!-- End Modal | Document Upload -->
+
+
+<!--
 <article class="row">
 	<form name="pasien" action="{?=url(ADMIN.'/pasien/save/'.@$pasien.form.no_rkm_medis)?}" method="POST" enctype="multipart/form-data">
 		<div class="col-md-8">
@@ -345,7 +716,7 @@
         </div>
 	</form>
 </article>
-
+-->
 <div class="modal fade" id="propinsiModal" tabindex="-1" role="dialog" aria-labelledby="propinsiModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 				<div class="modal-content">

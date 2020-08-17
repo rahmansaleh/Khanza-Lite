@@ -1,240 +1,671 @@
-<article class="row">
-		<div class="col-md-12 col-lg-3">
-				<div class="card profile-card">
-						<div class="profile-header">&nbsp;</div>
-						<div class="profile-body">
-								<div class="image-area">
-										<img src="{$pasien.fotoURL}" width="120" height="120" class="img-thumbnail" alt="Profile Image" />
-										<h4>{$pasien.view.nm_pasien}</h4>
-								</div>
-								<div class="content-area">
-										<p>{$pasien.view.no_ktp}</p>
-										<p>{$pasien.view.no_rkm_medis}</p>
-								</div>
-						</div>
-						<div class="profile-footer visible-lg">
-								<ul>
-										<li>
-												<span>Rawat Jalan</span>
-												<span>{$pasien.view.count_ralan}</span>
-										</li>
-										<li>
-												<span>Rawat Inap</span>
-												<span>{$pasien.view.count_ranap}</span>
-										</li>
-								</ul>
-								<a href="{$pasien.print_kartu}" target="_blank" class="btn btn-primary btn-block">CETAK KARTU</a>
-								<a href="{$pasien.print_rm}" target="_blank" class="btn btn-primary btn-block">CETAK REKAN MEDIK</a>
-								{if: !empty($pasien.cek_pasien_galleries)}
-								<a href="{$pasien.berkas_digital}" class="btn btn-primary btn-block" data-toggle="modal" data-target="#digitalModal">BERKAS DIGITAL</a>
-								{/if}
-						</div>
-				</div>
+<!----------------------------
+Content Area
+----------------------------->
+<div id="content" class="pmd-content content-area">
+    <!-- Page Title for Responsive View -->
+    <h1 class="h2 hide-large-desk">Patient Detail</h1>
 
-				<div class="card card-about-me visible-lg" style="margin-bottom:20px;">
-						<div class="header">
-								<h3>Detil Pribadi</h3>
-						</div>
-						<div class="body">
-								<ul>
-										<li>
-												<div class="title">
-														<i class="fa fa-file-text"></i>
-														Alamat
-												</div>
-												<div class="content">
-														{$pasien.view.alamat}
-												</div>
-										</li>
-										<li>
-												<div class="title">
-														<i class="fa fa-file-text"></i>
-														Jenis Kelamin
-												</div>
-												<div class="content">
-														{$pasien.view.jk}
-												</div>
-										</li>
-										<li>
-												<div class="title">
-														<i class="fa fa-file-text"></i>
-														Tempat / Tanggal Lahir
-												</div>
-												<div class="content">
-														{$pasien.view.tmp_lahir} / {$pasien.view.tgl_lahir}
-												</div>
-										</li>
-								</ul>
-						</div>
-				</div>
-	  </div>
-		<div class="col-md-12 col-lg-9">
-				<div class="card">
-						<div class="panel-default panel-post">
-						{if: !empty($pasien.riwayat)}
-							{loop: $pasien.riwayat}
-									<div class="panel-heading">
-											<div class="media">
-													<div class="media-body">
-															<h4 class="media-heading">
-																	<a href="#">{$value.tgl_registrasi} / {$value.nm_poli} / {$value.kd_poli}</a>
-															</h4>
-															{$value.nm_dokter} / {$value.kd_dokter}
-													</div>
-											</div>
-									</div>
-									<div class="panel-body">
-											<div class="post">
-													<div class="post-content">
-															<dl class="dl-horizontal no-margin">
-																	<dt>Subjective</dt>
-																	<dd>{$value.keluhan}</dd>
-																	<dt>Objective</dt>
-																	<dd>
-																		{if: !empty($value.pemeriksaan)}Pemeriksaan: {$value.pemeriksaan}<br>{/if}
-																		{if: !empty($value.suhu_tubuh)}Suhu: {$value.suhu_tubuh}<br>{/if}
-																		{if: !empty($value.tensi)}Tekanan darah: {$value.tensi}<br>{/if}
-																		{if: !empty($value.nadi)}Nadi: {$value.nadi}<br>{/if}
-																		{if: !empty($value.respirasi)}RR: {$value.respirasi}<br>{/if}
-																		{if: !empty($value.tinggi)}Tinggi badan: {$value.tinggi}<br>{/if}
-																		{if: !empty($value.berat)}Berat badan: {$value.berat}<br>{/if}
-																		{if: !empty($value.gcs)}GCS: {$value.gcs}{/if}
-																	</dd>
-																	<dt>Assessment</dt>
-																	<dd>
-																		{if: !empty($value.diagnosa_pasien)}
-																			<div class="assessment-title">Diagnosa:</div>
-																			<ul class="fa-ul">
-																			{loop: $value.diagnosa_pasien as $data}
-																				<li><i class="fa-li fa fa-check-square"></i>{$data.nm_penyakit}</li>
-																			{/loop}
-																			</ul>
-																		{/if}
-																		{if: !empty($value.rawat_jl_dr)}
-																			<div class="assessment-title">Perawatan:</div>
-																			<ul class="fa-ul">
-																			{loop: $value.rawat_jl_dr as $data}
-																				<li><i class="fa-li fa fa-check-square"></i>{$data.nm_perawatan}</li>
-																			{/loop}
-																			</ul>
-																		{/if}
-																	</dd>
-																	<dt>Plan</dt>
-																	<dd>
-																		{if: !empty($value.rtl)}Tindak lanjut: {$value.rtl}<br>{/if}
-																		{if: !empty($value.catatan_perawatan)}Catatan Perawatan: {$value.catatan_perawatan}<br>{/if}
-																	</dd>
-															</dl>
-													</div>
-											</div>
-											{if: !empty($value.detail_pemberian_obat)}
-						          <h4 style="background-color: #ddd;border-bottom: 2px #ccc solid;padding:5px;">Pemberian Obat</h4>
-						          <div class="table-responsive no-margin">
-						            <table class="table table-striped no-margin">
-						              <thead>
-						                <tr>
-						                  <th>Nama Obat</th>
-						                  <th>Jumlah</th>
-						                </tr>
-						              </thead>
-						              <tbody>
-						                  {loop: $value.detail_pemberian_obat as $data}
-						                  <tr>
-						                    <td>{$data.nama_brng}</td>
-						                    <td>{$data.jml}</td>
-						                  </tr>
-						                  {/loop}
-						              </tbody>
-						            </table>
-						          </div>
-						          {/if}
-						          {if: !empty($value.detail_periksa_lab)}
-						          <h4 style="background-color: #ddd;border-bottom: 2px #ccc solid;padding:5px;">Pemeriksaan Laboratorium</h4>
-						          <div class="table-responsive no-margin">
-						            <table class="table table-striped no-margin">
-						              <thead>
-						                <tr>
-						                  <th>Pemeriksaan</th>
-						                  <th>Nilai</th>
-						                  <th>Satuan</th>
-						                  <th>Nilai Rujukan</th>
-						                  <th>Keterangan</th>
-						                </tr>
-						              </thead>
-						              <tbody>
-						                  {loop: $value.detail_periksa_lab as $data}
-						                  <tr>
-						                    <td>{$data.Pemeriksaan}</td>
-						                    <td>{$data.nilai}</td>
-						                    <td>{$data.satuan}</td>
-						                    <td>{$data.nilai_rujukan}</td>
-						                    <td>{$data.keterangan}</td>
-						                  </tr>
-						                  {/loop}
-						              </tbody>
-						            </table>
-						          </div>
-						          {/if}
-											{if: !empty($value.gambar_radiologi)}
-						          <h4 style="background-color: #ddd;border-bottom: 2px #ccc solid;padding:5px;margin-left:10px;margin-right:10px;">Gambar dan Hasil Radiologi</h4>
-						          <div class="">
-						              <div class="gallery">
-						              {loop: $value.gambar_radiologi as $data}
-						                  <div class="col-sm-6 col-md-6">
-						                      <div class="thumbnail">
-						                          <a href="{?=url(WEBAPPS_PATH.'/radiologi/'.$data.lokasi_gambar)?}" class="gallery">
-						                              <img src="{?=url(WEBAPPS_PATH.'/radiologi/'.$data.lokasi_gambar)?}" class="img-responsive">
-						                          </a>
-						                      </div>
-						                  </div>
-						              {/loop}
-						              </div>
-						          </div>
-						          {/if}
-						          {if: $value.hasil_radiologi}
-						          <div class="">
-						              <div class="col-sm-12 col-md-12">
-						                  <div class="caption">
-						                      {$value.hasil_radiologi}
-						                  </div>
-						              </div>
-						          </div>
-						          {/if}
-									</div>
-									<div class="panel-footer">
-											<ul>
-													<li class="hidden-xs">
-															{$value.status_lanjut}
-													</li>
-													<li>
-															{$value.status_bayar}
-													</li>
-													<li>
-															{$value.no_rawat}
-													</li>
-											</ul>
-									</div>
-									<div class="separator"> ##### </div>
-							{/loop}
-							{else}
-							<div class="text-center" style="padding-top:15px;">Tidak ditemukan riwayat perawatan</div>
-						{/if}
-						</div>
-				</div>
-	  </div>
-</article>
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb pmd-breadcrumb ">
+            <li class="breadcrumb-item">
+                <a href="{?=url(ADMIN)?}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{?=url(ADMIN.'/pasien/manage')?}">Pasien</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Pasien Detil</li>
+        </ol>
+    </nav>
+    <!-- End Breadcrumb -->
+    <div class="page-content profile-view">
+        <!-- cover content -->
+        <div class="card pmd-card">
+            <div class="card-body">
+                <div class="media pmd-media-details view-detail-card">
+                    <div data-provides="fileinput" class="fileinput file-upload-140 rounded-circle profile-pic">
+                        <div data-trigger="fileinput" class="fileinput-preview thumbnail img-fluid mb-0">
+                            <img src="{$pasien.fotoURL}" width="140" alt="Profile avatar">
+                        </div>
+                        <div class="action-button">
+                            <span
+                                class="btn btn-secondary pmd-btn-fab btn-xs pmd-btn-raised btn-file pmd-ripple-effect">
+                                <span class="fileinput-new"><i class="material-icons pmd-xs">add</i></span>
+                                <span class="fileinput-exists"><i class="material-icons pmd-xs">mode_edit</i></span>
+                                <input type="file" name="...">
+                            </span>
+                            <a data-dismiss="fileinput"
+                                class="btn btn-danger btn-xs pmd-btn-fab pmd-ripple-effect pmd-btn-raised btn-file fileinput-exists"
+                                href="javascript:void(0);"><i class="material-icons pmd-xs">close</i></a>
+                        </div>
+                    </div>
+                    <div class="media-body align-self-left">
+                        <h3 class="card-title">{$pasien.view.nm_pasien}</h3>
+                            <p class="pmd-list-subtitle">{$pasien.view.no_rkm_medis}</p>
+                            <p>
+                            <ul class="list-unstyled">
+            										<li>
+            												<span>Rawat Jalan</span>
+            												<span class="badge badge-pill pmd-badge-outline-success">{$pasien.view.count_ralan}</span>
+            										</li>
+            										<li>
+            												<span>Rawat Inap</span>
+            												<span class="badge badge-pill pmd-badge-outline-secondary">{$pasien.view.count_ranap}</span>
+            										</li>
+            								</ul>
+            								<a href="{$pasien.print_kartu}" target="_blank" class="btn btn-primary">CETAK KARTU</a>
+            								<a href="{$pasien.print_rm}" target="_blank" class="btn btn-primary">CETAK REKAN MEDIK</a>
+            								{if: !empty($pasien.cek_pasien_galleries)}
+            								<a href="{$pasien.berkas_digital}" class="btn btn-primary btn-block" data-toggle="modal" data-target="#digitalModal">BERKAS DIGITAL</a>
+            								{/if}
+                            </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!-- Modal -->
-<div class="modal fade" id="digitalModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+        <!--Tab -->
+        <div class="pmd-tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><a class="nav-link active" href="#basicInfo" aria-controls="basicInfo"
+                        role="tab" data-toggle="tab">Informasi Personal</a></li>
+                <li class="nav-item"><a class="nav-link" href="#treatment-timeline"
+                        aria-controls="treatment-timeline" role="tab" data-toggle="tab">Riwayat Perawatan</a></li>
+                {if: !empty($pasien.cek_pasien_galleries)}
+                <li class="nav-item"><a class="nav-link" href="#documents" aria-controls="documents" role="tab"
+                        data-toggle="tab">Documents</a></li>
+                {/if}
+            </ul>
+        </div>
+        <div class="card pmd-card">
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Basic Information Tab -->
+                    <div role="tabpanel" class="tab-pane active" id="basicInfo">
+                        <!-- About -->
+                        <div class="pmd-detail-section">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title pmd-title-separator pr-3">About</h3>
+                                <a href="javascript:void(0);" title="Edit"
+                                    class="btn pmd-btn-fab pmd-btn-flat btn-outline-dark pmd-ripple-effect btn-sm edit-about-link">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                            </div>
+                            <!-- View About Fields -->
+                            <div class="row view-about-fields">
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">First Name</label>
+                                    <p>{$pasien.view.nm_pasien}</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">Middle Name</label>
+                                    <p>{$pasien.view.nm_pasien}</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">Last Name</label>
+                                    <p>{$pasien.view.nm_pasien}</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">Date of Birth</label>
+                                    <p>15/08/1991</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">Email ID</label>
+                                    <p>helen_medina@xyz.com</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">Contact No</label>
+                                    <p>+91 98250 45250</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">Blood Group</label>
+                                    <p>B+</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">Gender</label>
+                                    <p>Female</p>
+                                </div>
+                            </div>
+
+                            <!-- Edit About Fields -->
+                            <form class="edit-about-fields" method="post" style="display:none;">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Text Input Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="firstName" class="">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName"
+                                                value="{$pasien.view.nm_pasien}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Text Input Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="middleName" class="">Middle Name</label>
+                                            <input type="text" class="form-control" id="middleName"
+                                                name="middleName" value="{$pasien.view.nm_pasien}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Text Input Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="lastName" class="">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName"
+                                                value="{$pasien.view.nm_pasien}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Text Input Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="birthDate" class="">Date of Birth</label>
+                                            <input type="text" class="form-control datepicker" id="birthDate" name="birthDate"
+                                                value="15/08/1991">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Text Input Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="emailID" class="">Email ID</label>
+                                            <input type="email" class="form-control" id="emailID" name="emailID"
+                                                value="helen_medina@xyz.com">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Text Input Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="contactNo" class="">Contact No</label>
+                                            <input type="text" class="form-control" id="contactNo" name="contactNo"
+                                                value="+91 98250 45250">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Select Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="bloodGroup">Blood Group</label>
+                                            <select class="custom-select" id="bloodGroup">
+                                                <option></option>
+                                                <option>A+</option>
+                                                <option>A-</option>
+                                                <option selected>B+</option>
+                                                <option>B-</option>
+                                                <option>AB</option>
+                                                <option>o-</option>
+                                                <option>o+</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Radio buttons -->
+                                        <div class="form-group">
+                                            <label class="title-label">Gender</label>
+                                            <div class="radio-groups">
+                                                <div
+                                                    class="custom-control custom-radio pmd-radio custom-control-inline">
+                                                    <input type="radio" id="doctorMale" name="doctorGender"
+                                                        class="custom-control-input">
+                                                    <label class="custom-control-label pmd-radio-ripple-effect"
+                                                        for="doctorMale">Male</label>
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-radio pmd-radio custom-control-inline">
+                                                    <input type="radio" id="doctorFemale" name="doctorGender"
+                                                        class="custom-control-input">
+                                                    <label class="custom-control-label pmd-radio-ripple-effect"
+                                                        for="doctorFemale" checked>Female</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-actions">
+                                        <button class="btn pmd-btn-raised btn-primary pmd-ripple-effect mr-3"
+                                            title="Update" id="update-about-info">Update</button>
+                                        <button class="btn btn-outline-secondary pmd-ripple-effect pmd-btn-flat"
+                                            title="Cancel" id="cancel-about-info">Cancel</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="pmd-detail-section">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title pmd-title-separator pr-3">Contact Information</h3>
+                                <a href="javascript:void(0);" title="Edit"
+                                    class="btn pmd-btn-fab pmd-btn-flat btn-outline-dark pmd-ripple-effect btn-sm edit-contact-link">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                            </div>
+                            <!-- View Contact Fields -->
+                            <div class="row view-contact-fields">
+                                <div class="col-md-6">
+                                    <label class="title-label">Address Line</label>
+                                    <p>4979 Eagle Street</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">City</label>
+                                    <p>Bellevue</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">Pincode</label>
+                                    <p>98004</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">State</label>
+                                    <p>Washington</p>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <label class="title-label">Country</label>
+                                    <p>United States</p>
+                                </div>
+                            </div>
+
+                            <!-- Edit Contact Fields -->
+                            <form class="edit-contact-fields" method="post" style="display: none;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- Text Input Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="addressLine" class="">Address Line</label>
+                                            <input type="text" class="form-control" id="addressLine"
+                                                name="addressLine" value="4979  Eagle Street">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Text Input Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="cityName" class="">City</label>
+                                            <input type="text" class="form-control" id="cityName" name="cityName"
+                                                value="Bellevue">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Text Input Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="pincode" class="">Pincode</label>
+                                            <input type="text" class="form-control" id="pincode" name="pincode"
+                                                value="98004">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Select Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="stateName">State</label>
+                                            <select class="custom-select" id="stateName">
+                                                <option></option>
+                                                <option>Texas</option>
+                                                <option>Georgia</option>
+                                                <option selected>Washington</option>
+                                                <option>Florida</option>
+                                                <option>Pennslyvania</option>
+                                                <option>New York</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Select Field -->
+                                        <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                                            <label for="countryName">Country</label>
+                                            <select class="custom-select" id="countryName">
+                                                <option></option>
+                                                <option selected>United States</option>
+                                                <option>India</option>
+                                                <option>Australia</option>
+                                                <option>Germany</option>
+                                                <option>Japan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-actions">
+                                        <button class="btn pmd-btn-raised btn-primary pmd-ripple-effect mr-3"
+                                            title="Update" id="update-contact-info">Update</button>
+                                        <button class="btn btn-outline-secondary pmd-ripple-effect pmd-btn-flat"
+                                            title="Cancel" id="cancel-contact-info">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End Basic Information Tab -->
+
+                    <!-- Treatment Timeline -->
+                    <div role="tabpanel" class="tab-pane" id="treatment-timeline">
+
+                        <!-- Vertical Stepper with Completed State -->
+                        <ul class="nav pmd-stepper pmd-stepper-vertical vertical-timeline">
+                            <li class="nav-item disabled">
+                                <div class="pmd-stepper-item">
+                                    <div class="pmd-stepper-media pmd-icon-circle pmd-icon-xs">
+                                        <i class="material-icons pending-media">access_time</i>
+                                        <i class="material-icons active-media">timelapse</i>
+                                        <i class="material-icons completed-media">done</i>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="justify-content-between d-md-flex d-block">
+                                            <h3 class="pmd-stepper-title mb-2">Discharge</h3>
+                                            <span class="pmd-list-subtitle mb-2 d-inline-block">14 February,
+                                                2019</span>
+                                        </div>
+                                        <p class="pmd-stepper-subtitle">As Patient Health is not good and blood
+                                            report not good so, not discharge now</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item active">
+                                <div class="pmd-stepper-item">
+                                    <div class="pmd-stepper-media pmd-icon-circle pmd-icon-xs">
+                                        <i class="material-icons pending-media">access_time</i>
+                                        <i class="material-icons active-media">timelapse</i>
+                                        <i class="material-icons completed-media">done</i>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="justify-content-between d-md-flex d-block">
+                                            <h3 class="pmd-stepper-title mb-2">Routine Checkup</h3>
+                                            <span class="pmd-list-subtitle mb-2 d-inline-block">12 February,
+                                                2019</span>
+                                        </div>
+                                        <p class="pmd-stepper-subtitle">Regular health check-ups can identify any
+                                            early signs of health issues. Finding problems early means that your
+                                            chances for effective treatment are increased. Many factors, such as
+                                            your age, health, family history and lifestyle choices, impact on how
+                                            often you need check-ups.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item completed">
+                                <div class="pmd-stepper-item">
+                                    <div class="pmd-stepper-media pmd-icon-circle pmd-icon-xs">
+                                        <i class="material-icons pending-media">access_time</i>
+                                        <i class="material-icons active-media">timelapse</i>
+                                        <i class="material-icons completed-media">done</i>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="justify-content-between d-md-flex d-block">
+                                            <h3 class="pmd-stepper-title mb-2">Operation</h3>
+                                            <span class="pmd-list-subtitle mb-2 d-inline-block">24 January,
+                                                2019</span>
+                                        </div>
+                                        <p class="pmd-stepper-subtitle">blood is predictable and/or necessary, it is
+                                            suggested that the requested number of units of RCC does not exceed that
+                                            of the MSBOS indication for that particular operation.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item completed">
+                                <div class="pmd-stepper-item">
+                                    <div class="pmd-stepper-media pmd-icon-circle pmd-icon-xs">
+                                        <i class="material-icons pending-media">access_time</i>
+                                        <i class="material-icons active-media">timelapse</i>
+                                        <i class="material-icons completed-media">done</i>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="justify-content-between d-md-flex d-block">
+                                            <h3 class="pmd-stepper-title mb-2">Blood checkout test</h3>
+                                            <span class="pmd-list-subtitle mb-2 d-inline-block">20 January,
+                                                2019</span>
+                                        </div>
+                                        <p class="pmd-stepper-subtitle">Patient was came for Blood checkout. A blood
+                                            test – sometimes referred to as a blood panel – is a laboratory
+                                            examination of a blood sample used to check for a variety of things.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item completed">
+                                <div class="pmd-stepper-item ">
+                                    <div class="pmd-stepper-media pmd-icon-circle pmd-icon-xs">
+                                        <i class="material-icons pending-media">access_time</i>
+                                        <i class="material-icons active-media">timelapse</i>
+                                        <i class="material-icons completed-media">done</i>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="justify-content-between d-md-flex d-block">
+                                            <h3 class="pmd-stepper-title mb-2">Admit patient ward No. 22</h3>
+                                            <span class="pmd-list-subtitle mb-2 d-inline-block">11 January,
+                                                2019</span>
+                                        </div>
+                                        <p class="pmd-stepper-subtitle">
+                                            Patient health was not well so, admitted in word no 22. The most
+                                            frequent acute conditions were admitted through the ED, a large
+                                            percentage of chronic conditions were also admitted through the ED.
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <!-- End Treatment Timeline -->
+
+                    <!-- Documents Tab -->
+                    {if: !empty($pasien.cek_pasien_galleries)}
+                    <div role="tabpanel" class="tab-pane" id="documents">
+                        <div class="pmd-detail-section">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title pmd-title-separator pr-3">Documents</h3>
+                                <a href="javascript:void(0);"
+                                    class="btn pmd-ripple-effect btn-outline-primary pmd-btn-flat btn-sm pmd-btn-fab"
+                                    title="Add" data-target="#upload_document_modal" data-toggle="modal">
+                                    <i class="material-icons">add</i>
+                                </a>
+                            </div>
+                            <table class="table pmd-table pmd-table-card doc-table" id="table-propeller">
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td data-title="File Name">
+                                            <i class="mr-2 align-middle pmd-icon-sm">
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                    viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;"
+                                                    xml:space="preserve">
+                                                    <style type="text/css">
+                                                        .pdf-style {
+                                                            fill: #F15642;
+                                                        }
+                                                    </style>
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path class="pdf-style"
+                                                                    d="M18.3,13h-3c-0.4,0-0.8,0.3-0.8,0.8v6c0,0.4,0.3,0.8,0.8,0.8h3c0.8,0,1.5-0.7,1.5-1.5v-4.5
+                                                                   C19.8,13.7,19.1,13,18.3,13z M18.3,19H16v-4.5h2.3V19z" />
+                                                                <path class="pdf-style"
+                                                                    d="M25,14.5V13h-3.8c-0.4,0-0.8,0.3-0.8,0.8v6.7H22v-3h3V16h-3v-1.5H25z" />
+                                                                <path class="pdf-style"
+                                                                    d="M2.5,22.8V3.3c0-0.4,0.3-0.8,0.8-0.8h11.3v3C14.5,6.3,15.2,7,16,7h3v2.3h1.5v-3c0-0.2-0.1-0.4-0.2-0.5
+                                                                   l-4.5-4.5C15.6,1.1,15.4,1,15.3,1h-12C2,1,1,2,1,3.3v19.5C1,24,2,25,3.3,25h5.3v-1.5H3.3C2.8,23.5,2.5,23.2,2.5,22.8z" />
+                                                                <path class="pdf-style" d="M12.3,13h-3c-0.4,0-0.8,0.3-0.8,0.8v6.7H10v-2.3h2.3c0.8,0,1.5-0.7,1.5-1.5v-2.2C13.8,13.7,13.1,13,12.3,13z
+                                                                    M12.3,16.8H10v-2.2h2.3V16.8z" />
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </i>driving_license.pdf
+                                        </td>
+                                        <td data-title="Action">
+                                            <button data-target="#upload_document_modal" data-toggle="modal"
+                                                title="Edit"
+                                                class="btn pmd-btn-fab pmd-btn-flat btn-dark pmd-ripple-effect btn-xs mr-1"
+                                                type="button"><i
+                                                    class="material-icons pmd-icon-xs">edit</i></button>
+                                            <button data-target="#delete_entry_modal" data-toggle="modal"
+                                                title="Delete"
+                                                class="btn pmd-btn-fab pmd-btn-flat btn-dark pmd-ripple-effect btn-xs"
+                                                type="button"><i
+                                                    class="material-icons pmd-icon-xs">delete_outline</i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-title="File Name">
+                                            <i class="mr-2 align-middle pmd-icon-sm">
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                    viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;"
+                                                    xml:space="preserve">
+                                                    <style type="text/css">
+                                                        .png-style {
+                                                            fill: #A066AA;
+                                                        }
+                                                    </style>
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path class="png-style"
+                                                                    d="M2.5,22.8V3.3c0-0.4,0.3-0.8,0.8-0.8h11.3v3C14.5,6.3,15.2,7,16,7h3v2.3h1.5v-3c0-0.2-0.1-0.4-0.2-0.5
+                                                                       l-4.5-4.5C15.6,1.1,15.4,1,15.3,1h-12C2,1,1,2,1,3.3v19.5C1,24,2,25,3.3,25h5.3v-1.5H3.3C2.8,23.5,2.5,23.2,2.5,22.8z" />
+                                                                <path class="png-style"
+                                                                    d="M23.5,16H22v1.5h1.5V19h-3v-4.5H25c0-0.8-0.7-1.5-1.5-1.5h-3c-0.8,0-1.5,0.7-1.5,1.5V19
+                                                                       c0,0.8,0.7,1.5,1.5,1.5h3c0.8,0,1.5-0.7,1.5-1.5v-1.5C25,16.7,24.3,16,23.5,16z" />
+                                                                <path class="png-style" d="M10,13H7c-0.4,0-0.8,0.3-0.8,0.8v6.7h1.5v-2.3H10c0.8,0,1.5-0.7,1.5-1.5v-2.2C11.5,13.7,10.8,13,10,13z
+                                                                        M10,16.8H7.8v-2.2H10V16.8z" />
+                                                                <path class="png-style"
+                                                                    d="M16.8,17.5l-3.2-4.2c-0.2-0.3-0.7-0.4-1.1-0.2c-0.2,0.1-0.3,0.4-0.3,0.6v6.8h1.5V16l3.2,4.2
+                                                                       c0.1,0.2,0.4,0.3,0.6,0.3c0.1,0,0.2,0,0.2,0c0.3-0.1,0.5-0.4,0.5-0.7V13h-1.5V17.5z" />
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </i>degree_certificate.png
+                                        </td>
+                                        <td data-title="Action">
+                                            <button data-target="#upload_document_modal" data-toggle="modal"
+                                                title="Edit"
+                                                class="btn pmd-btn-fab pmd-btn-flat btn-dark pmd-ripple-effect btn-xs mr-1"
+                                                type="button"><i
+                                                    class="material-icons pmd-icon-xs">edit</i></button>
+                                            <button data-target="#delete_entry_modal" data-toggle="modal"
+                                                title="Delete"
+                                                class="btn pmd-btn-fab pmd-btn-flat btn-dark pmd-ripple-effect btn-xs"
+                                                type="button"><i
+                                                    class="material-icons pmd-icon-xs">delete_outline</i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-title="File Name">
+                                            <i class="mr-2 align-middle pmd-icon-sm">
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                    viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;"
+                                                    xml:space="preserve">
+                                                    <style type="text/css">
+                                                        .jpg-style {
+                                                            fill: #50BEE8;
+                                                        }
+                                                    </style>
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path class="jpg-style"
+                                                                    d="M2.5,22.8V3.3c0-0.4,0.3-0.8,0.8-0.8h11.3v3C14.5,6.3,15.2,7,16,7h3v2.2h1.5v-3c0-0.2-0.1-0.4-0.2-0.5
+                                                                   l-4.5-4.5C15.6,1.1,15.4,1,15.3,1h-12C2,1,1,2,1,3.3v19.5C1,24,2,25,3.3,25h5.3v-1.5H3.3C2.8,23.5,2.5,23.2,2.5,22.8z" />
+                                                                <path class="jpg-style"
+                                                                    d="M23.5,16H22v1.5h1.5V19h-3v-4.5H25c0-0.8-0.7-1.5-1.5-1.5h-3c-0.8,0-1.5,0.7-1.5,1.5V19
+                                                                   c0,0.8,0.7,1.5,1.5,1.5h3c0.8,0,1.5-0.7,1.5-1.5v-1.5C25,16.7,24.3,16,23.5,16z" />
+                                                                <path class="jpg-style" d="M16.8,13h-3c-0.4,0-0.8,0.3-0.8,0.8v6.8h1.5v-2.3h2.3c0.8,0,1.5-0.7,1.5-1.5v-2.3C18.3,13.7,17.6,13,16.8,13
+                                                                   z M16.8,16.8h-2.3v-2.3h2.3V16.8z" />
+                                                                <path class="jpg-style"
+                                                                    d="M10.8,19h-3v1.5h3c0.8,0,1.5-0.7,1.5-1.5v-6h-1.5V19z" />
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </i>adhaar_card.jpg
+                                        </td>
+                                        <td data-title="Action">
+                                            <button data-target="#upload_document_modal" data-toggle="modal"
+                                                title="Edit"
+                                                class="btn pmd-btn-fab pmd-btn-flat btn-dark pmd-ripple-effect btn-xs mr-1"
+                                                type="button"><i
+                                                    class="material-icons pmd-icon-xs">edit</i></button>
+                                            <button data-target="#delete_entry_modal" data-toggle="modal"
+                                                title="Delete"
+                                                class="btn pmd-btn-fab pmd-btn-flat btn-dark pmd-ripple-effect btn-xs"
+                                                type="button"><i
+                                                    class="material-icons pmd-icon-xs">delete_outline</i></button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    {/if}
+                    <!-- End Documents Tab -->
+
+                </div>
+            </div>
+        </div>
+        <!--End Tab-->
+
+    </div>
+</div>
+<!-- End Content Area -->
+
+<!----------------------------
+Modal | Delete
+----------------------------->
+<div tabindex="-1" class="modal pmd-modal text-center delete-modal" id="delete_entry_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            ...
+            <!-- Modal Header -->
+            <div class="modal-header justify-content-center">
+                <i class="material-icons md-danger-circle pmd-icon-circle pmd-icon-md">
+                    <strong>error_outline</strong>
+                </i>
+            </div>
+            <!-- Modal Body Content -->
+            <div class="modal-body">
+                <h3 class="modal-title mb-2">Are you sure?</h3>
+                <p class="mb-4">Do you really want to delete entry?<br>This action cannot be
+                    undone.</p>
+                <a href="javascript:void(0);" class="btn pmd-btn-raised btn-danger pmd-ripple-effect mr-2"
+                    title="Delete" data-dismiss="modal">Delete</a>
+                <a href="javascript:void(0);" class="btn btn-outline-danger pmd-ripple-effect" title="Cancel"
+                    data-dismiss="modal">Cancel</a>
+            </div>
         </div>
     </div>
 </div>
+<!-- End Modal | Delete -->
 
-<script>
-$(document).ready(function(){
-$('.gallery').lightbox();
-});
-</script>
+<!----------------------------
+Modal | Document Upload
+----------------------------->
+<div tabindex="-1" class="modal pmd-modal" id="upload_document_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header pmd-modal-border">
+                <h3 class="modal-title">Upload Document</h3>
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <!-- Modal Body Content -->
+            <div class="modal-body mb-4">
+                <form>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                        <label for="fileName">File Name</label>
+                        <input id="fileName" class="form-control" type="text">
+                    </div>
+                    <div class="custom-file pmd-custom-file form-group">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+
+                    <a href="javascript:void(0);" class="btn pmd-btn-raised btn-primary pmd-ripple-effect mr-2"
+                        title="Upload" data-dismiss="modal">Upload</a>
+                    <a href="javascript:void(0);" class="btn btn-outline-secondary pmd-ripple-effect" title="Cancel"
+                        data-dismiss="modal">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal | Document Upload -->

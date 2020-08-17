@@ -7,38 +7,23 @@ use Systems\Lib\HttpRequest;
 
 class Admin extends AdminModule
 {
+
     public function navigation()
     {
-        if ($this->core->getUserInfo('id') == 1) {
-            return [
-                'Main' => 'main',
-                'Pengaturan' => 'settings'
-            ];
-        } else {
-            return [
-                'Main' => 'main'
-            ];
-        }
+        return [
+            'Main' => 'main'
+        ];
     }
 
     public function getMain()
     {
 
-        $this->core->addCSS(url(MODULES.'/dashboard/css/style.css?v={$opensimrs.version}'));
-        $this->core->addJS(url(BASE_DIR.'/assets/jscripts/Chart.bundle.min.js'));
-        $this->core->addJS(url(MODULES.'/dashboard/js/app.js?v={$opensimrs.version}'));
-
+        $this->_addHeaderFiles();
         $settings = htmlspecialchars_array($this->options('dashboard'));
-        $stats['getPasiens'] = number_format($this->countPasien(),0,'','.');
         $stats['getVisities'] = number_format($this->countVisite(),0,'','.');
+        $stats['getYearVisities'] = number_format($this->countYearVisite(),0,'','.');
+        $stats['getMonthVisities'] = number_format($this->countMonthVisite(),0,'','.');
         $stats['getCurrentVisities'] = number_format($this->countCurrentVisite(),0,'','.');
-        $stats['poliChart'] = $this->poliChart();
-        $stats['KunjunganTahunChart'] = $this->KunjunganTahunChart();
-        $stats['RanapTahunChart'] = $this->RanapTahunChart();
-        $stats['RujukTahunChart'] = $this->RujukTahunChart();
-        $stats['tunai'] = $this->db('reg_periksa')->select(['count' => 'COUNT(DISTINCT no_rawat)'])->where('kd_pj', $settings['umum'])->like('tgl_registrasi', date('Y').'%')->oneArray();
-        $stats['bpjs'] = $this->db('reg_periksa')->select(['count' => 'COUNT(DISTINCT no_rawat)'])->where('kd_pj', $settings['bpjs'])->like('tgl_registrasi', date('Y').'%')->oneArray();
-        $stats['lainnya'] = $this->db('reg_periksa')->select(['count' => 'COUNT(DISTINCT no_rawat)'])->where('kd_pj', '!=', $settings['umum'])->where('kd_pj', '!=', $settings['bpjs'])->like('tgl_registrasi', date('Y').'%')->oneArray();
 
         $day = array(
           'Sun' => 'AKHAD',
@@ -52,44 +37,11 @@ class Admin extends AdminModule
         $hari=$day[date('D',strtotime(date('Y-m-d')))];
 
         return $this->draw('dashboard.html', [
-          'settings' => $settings,
           'stats' => $stats,
           'pasien' => $this->db('pasien')->join('penjab', 'penjab.kd_pj = pasien.kd_pj')->desc('tgl_daftar')->limit('5')->toArray(),
           'dokter' => $this->db('dokter')->join('spesialis', 'spesialis.kd_sps = dokter.kd_sps')->join('jadwal', 'jadwal.kd_dokter = dokter.kd_dokter')->where('jadwal.hari_kerja', $hari)->where('status', '1')->group('dokter.kd_dokter')->rand()->limit('6')->toArray(),
-          'modules' => $this->_modulesList()
         ]);
 
-    }
-
-    private function _modulesList()
-    {
-        $modules = array_column($this->db('lite_modules')->toArray(), 'dir');
-        $result = [];
-
-        if ($this->core->getUserInfo('access') != 'all') {
-            $modules = array_intersect($modules, explode(',', $this->core->getUserInfo('access')));
-        }
-
-        foreach ($modules as $name) {
-            $files = [
-                'info'  => MODULES.'/'.$name.'/Info.php',
-                'admin' => MODULES.'/'.$name.'/Admin.php',
-            ];
-
-            if (file_exists($files['info']) && file_exists($files['admin'])) {
-                $details        = $this->core->getModuleInfo($name);
-                $features       = $this->core->getModuleNav($name);
-
-                if (empty($features)) {
-                    continue;
-                }
-
-                $details['url'] = url([ADMIN, $name, array_shift($features)]);
-
-                $result[] = $details;
-            }
-        }
-        return $result;
     }
 
     public function countVisite()
@@ -98,6 +50,30 @@ class Admin extends AdminModule
             ->select([
                 'count' => 'COUNT(DISTINCT no_rawat)',
             ])
+            ->oneArray();
+
+        return $record['count'];
+    }
+
+    public function countYearVisite()
+    {
+        $record = $this->db('reg_periksa')
+            ->select([
+                'count' => 'COUNT(DISTINCT no_rawat)',
+            ])
+            ->like('tgl_registrasi', date('Y').'%')
+            ->oneArray();
+
+        return $record['count'];
+    }
+
+    public function countMonthVisite()
+    {
+        $record = $this->db('reg_periksa')
+            ->select([
+                'count' => 'COUNT(DISTINCT no_rawat)',
+            ])
+            ->like('tgl_registrasi', date('Y-m').'%')
             ->oneArray();
 
         return $record['count'];
@@ -116,17 +92,6 @@ class Admin extends AdminModule
         return $record['count'];
     }
 
-    public function countPasien()
-    {
-        $record = $this->db('pasien')
-            ->select([
-                'count' => 'COUNT(DISTINCT no_rkm_medis)',
-            ])
-            ->oneArray();
-
-        return $record['count'];
-    }
-
     public function poliChart()
     {
 
@@ -137,6 +102,7 @@ class Admin extends AdminModule
             ])
             ->join('poliklinik', 'poliklinik.kd_poli = reg_periksa.kd_poli')
             ->where('tgl_registrasi', '>=', date('Y-m-d'))
+            //->where('reg_periksa.kd_poli', '!=', 'U0041')
             ->group(['reg_periksa.kd_poli'])
             ->desc('nm_poli');
 
@@ -233,20 +199,24 @@ class Admin extends AdminModule
         return $return;
     }
 
-    public function getSettings()
+    public function getJavascript()
     {
-        $this->assign['penjab'] = $this->core->db('penjab')->toArray();
-        $this->assign['dashboard'] = htmlspecialchars_array($this->options('dashboard'));
-        return $this->draw('settings.html', ['settings' => $this->assign]);
+        header('Content-type: text/javascript');
+        $settings = htmlspecialchars_array($this->options('dashboard'));
+        $stats['poliChart'] = $this->poliChart();
+        $stats['KunjunganTahunChart'] = $this->KunjunganTahunChart();
+        $stats['RanapTahunChart'] = $this->RanapTahunChart();
+        $stats['RujukTahunChart'] = $this->RujukTahunChart();
+        $stats['tunai'] = $this->db('reg_periksa')->select(['count' => 'COUNT(DISTINCT no_rawat)'])->where('kd_pj', $settings['umum'])->like('tgl_registrasi', date('Y').'%')->oneArray();
+        $stats['bpjs'] = $this->db('reg_periksa')->select(['count' => 'COUNT(DISTINCT no_rawat)'])->where('kd_pj', $settings['bpjs'])->like('tgl_registrasi', date('Y').'%')->oneArray();
+        $stats['lainnya'] = $this->db('reg_periksa')->select(['count' => 'COUNT(DISTINCT no_rawat)'])->where('kd_pj', '!=', $settings['umum'])->where('kd_pj', '!=', $settings['bpjs'])->like('tgl_registrasi', date('Y').'%')->oneArray();
+        echo $this->draw(MODULES.'/dashboard/js/app.js', ['stats' => $stats]);
+        exit();
     }
 
-    public function postSaveSettings()
+    private function _addHeaderFiles()
     {
-        foreach ($_POST['dashboard'] as $key => $val) {
-            $this->options('dashboard', $key, $val);
-        }
-        $this->notify('success', 'Pengaturan pasien telah disimpan');
-        redirect(url([ADMIN, 'dashboard', 'settings']));
+        $this->core->addJS(url([ADMIN, 'dashboard', 'javascript']), 'footer');
     }
 
 }

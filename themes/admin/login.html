@@ -1,57 +1,159 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+<html lang="en-US" class="h-100">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{$opensimrs.title}</title>
-    <link rel="icon" href="{$opensimrs.path}/favicon.png" type="image/x-icon">
-    <link href="{$opensimrs.path}/assets/css/bootstrap.min.css?v={$opensimrs.version}" rel="stylesheet">
-    <link href="{$opensimrs.path}/assets/css/bootstrap-theme.min.css?v={$opensimrs.version}" rel="stylesheet">
-    <link href="{?= url(THEMES.'/admin/css/style.css?v='.$opensimrs.version) ?}" rel="stylesheet">
-    <link href="{$opensimrs.path}/assets/css/font-awesome.css?v={$opensimrs.version}" rel="stylesheet">
-    <script src="{$opensimrs.path}/assets/jscripts/jquery.min.js"></script>
-    <script src="{?=url(THEMES.'/admin/js/kalypto.min.js?v='.$opensimrs.version) ?}"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+	<title>{$opensimrs.title}</title>
+	<meta name="description"
+		content="Simple Login Page Template. e-Health Care Admin Theme is a multipurpose and fully responsive Bootstrap 4 and Material Design based Admin HTML Template by Propeller designed mainly for Clinics, Hospitals, Dentists and more such applications related to health care." />
+	<link rel="shortcut icon" type="image/x-icon" href="{?=url(THEMES.'/admin/assets/images/logo-yaski.png')?}">
+
+	<!-- Google icon -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<!-- Rubik and Open sans Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700"
+		rel="stylesheet">
+
+	<!-- build:remove -->
+	<!-- e-Health Care Admin Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="{?=url(THEMES.'/admin/assets/css/ehealthcare-admin-compress.min.css')?}">
+	<!-- /build -->
+
 </head>
 
-<body style="background-image: url({?= url(THEMES.'/admin/img/wallpaper.png')?}); background-repeat: no-repeat;  background-size: cover;">
+<body class="m-0 h-100">
 
-	<section id="login">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <img src="data:image/jpeg;base64,{?=base64_encode($opensimrs.logo)?}" alt="logo"> <h2><span>{$opensimrs.title}</span></h2>
-            </div>
-            <div class="panel-body">
-        		<form action="{$_SERVER['REQUEST_URI']}" method="POST">
-                  	<div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                            <input type="text" name="username" class="form-control" placeholder="Nama pengguna" required />
-                        </div>
-                  	</div>
-                  	<div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                            <input type="password" name="password" class="form-control" placeholder="Kata kunci" required />
-                        </div>
-                  	</div>
-                    <div class="form-group">
-                        <label class="remember-me pull-left">
-                            <input type="checkbox" name="remember_me" />
-                            Ingat saya
-                        </label>
-                        <button type="submit" name="login" class="btn btn-success pull-right">Log masuk</button>
-                    </div>
-        		</form>
-            </div>
-        </div>
-		{if: $opensimrs.notify}
-		<div id="notify" class="alert-{$opensimrs.notify.type} animated shake">{$opensimrs.notify.text}</div>
-		{/if}
-	</section>
+	<!----------------------------
+		Login Page
+	 ----------------------------->
+	<div class="bg-white login-v1 h-100">
+		<div class="container-fluid h-100">
+			<div class="row h-100 justify-content-center login-sec">
+				<div class="col-md-6 mx-auto login-card d-flex">
+					<div class="card pmd-card pmd-card-transparent d-flex mb-0">
+						<div class="card-header mb-0">
+							<a class="navbar-brand" href="dashboard.html">
+								<img src="data:image/jpeg;base64,{?=base64_encode($opensimrs.logo)?}" alt="Logo" class="img-fluid" width="100">
+							</a>
+						</div>
+						<div class="card-body d-flex align-items-center">
+							<!-- Login Form -->
+							<form action="{$_SERVER['REQUEST_URI']}" method="POST" class="login-section">
+								<h2 class="card-title display-4">{$opensimrs.title}</h2>
+								<p class="card-subtitle mb-4">Silahkan login untuk memulai</p>
+								<div class="input-group pmd-input-group-outline pmd-input-group-icon form-group">
+									<div class="pmd-textfield pmd-textfield-outline pmd-textfield-floating-label">
+										<label for="username">Username</label>
+										<input type="text" class="form-control" name="username">
+									</div>
+									<div class="input-group-append">
+										<div class="input-group-text">
+											<i class="material-icons md-dark pmd-sm">person</i>
+										</div>
+									</div>
+								</div>
+								<div class="input-group pmd-input-group-outline pmd-input-group-icon form-group">
+									<div class="pmd-textfield pmd-textfield-outline pmd-textfield-floating-label">
+										<label for="password">Password</label>
+										<input type="password" class="form-control" name="password">
+									</div>
+									<div class="input-group-append">
+										<div class="input-group-text">
+											<i class="material-icons md-dark pmd-sm">lock</i>
+										</div>
+									</div>
+								</div>
 
-    <script>
-    $(':checkbox').kalypto();
-    </script>
+								<div class="d-flex justify-content-between">
+									<div class="custom-control custom-checkbox pmd-checkbox mb-3">
+										<input class="custom-control-input" type="checkbox" name="remember_me"/>
+										<label class="custom-control-label" for="remember_me">Ingat Saya</label>
+									</div>
+								</div>
+								<div class="text-center">
+									<button type="submit" name="login"
+										class="btn btn-primary btn-block d-block pmd-ripple-effect mb-3">Login</button>
+								</div>
+							</form>
+							<!-- End Login Form -->
+
+						</div>
+						<div class="card-footer">
+							<!-- Footer -->
+							<footer class="pmd-footer">
+								<div class="pmd-site-info w-100">
+									© <span class="auto-update-year">{?=date('Y')?}</span> <a href="https://basoro.org/"
+										target="_blank"><strong>Khanza Lite. </strong></a>Made with <img src="{?=url(THEMES.'/admin/assets/images/hearts.png')?}"/> by <a href="https://basoro.id/" target="_blank"><b>drg. Basoro</b></a>
+								</div>
+							</footer>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-md-6 login-bg d-none d-md-flex">
+					<div class="card pmd-card pmd-card-transparent mb-0 d-flex">
+						<div class="text-white card-body d-flex align-items-center">
+							<div class="login-content">
+								<h1 class="text-white display-3">Welcome to <span class="text-secondary">Khanza</span> LITE</h1>
+								<p class="lead mb-4">Based on e-Health Care Admin Theme has real-world features that gives you
+									the power to build something great. We’ve highlighted some of the features below!
+								</p>
+								<ul class="list-group pmd-list">
+									<li class="d-flex flex-row">
+										<i class="material-icons pmd-sm mr-2">check_circle_outline</i>
+										<span class="media-body">Flat UI with clean style</span>
+									</li>
+									<li class="d-flex flex-row">
+										<i class="material-icons pmd-sm mr-2">check_circle_outline</i>
+										<span class="media-body">Fully responsive UI</span>
+									</li>
+									<li class="d-flex flex-row">
+										<i class="material-icons pmd-sm mr-2">check_circle_outline</i>
+										<span class="media-body">Bootstrap 4 Integration</span>
+									</li>
+									<li class="d-flex flex-row">
+										<i class="material-icons pmd-sm mr-2">check_circle_outline</i>
+										<span class="media-body">Google’s Material Design Standards</span>
+									</li>
+									<li class="d-flex flex-row">
+										<i class="material-icons pmd-sm mr-2">check_circle_outline</i>
+										<span class="media-body">Propeller Pro Integration</span>
+									</li>
+									<li class="d-flex flex-row">
+										<i class="material-icons pmd-sm mr-2">check_circle_outline</i>
+										<span class="media-body">Ready to use page templates</span>
+									</li>
+									<li class="d-flex flex-row">
+										<i class="material-icons pmd-sm mr-2">check_circle_outline</i>
+										<span class="media-body">Easy to customize</span>
+									</li>
+									<li class="d-flex flex-row">
+										<i class="material-icons pmd-sm mr-2">check_circle_outline</i>
+										<span class="media-body">Cross-browser Compatible</span>
+									</li>
+									<li class="d-flex flex-row">
+										<i class="material-icons pmd-sm mr-2">check_circle_outline</i>
+										<span class="media-body">Clean & Commented Code</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Login page -->
+
+	<!-- build:include snippets/js-files-404.html -->
+	<!-- /build -->
+
+	<!-- build:remove -->
+	<!--Admin js-->
+	<script type="text/javascript" src="{?=url(THEMES.'/admin/assets/js/ehealthcare-admin-compress.min.js')?}"></script>
+	<!-- /build -->
 </body>
+
 </html>

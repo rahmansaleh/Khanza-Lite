@@ -19,15 +19,14 @@ class Admin extends AdminModule
     public function navigation()
     {
         return [
-            'Instansi'          => 'general',
-            'Aplikasi'          => 'aplikasi',
-            'Update'            => 'updates'
+            'Pengaturan'          => 'manage'
         ];
     }
 
-    public function getGeneral()
+    public function getManage()
     {
-        $settings = $this->db('setting')->toArray();
+        $this->_addHeaderFiles();
+        $settings = $this->db('setting')->toArray()[0];
         $settings['system'] = [
             'version'       => $this->options->get('settings.version'),
             'php'           => PHP_VERSION,
@@ -45,9 +44,39 @@ class Admin extends AdminModule
           $settings['logoURL'] = "data:image/jpeg;base64,".base64_encode($this->core->getSettings('logo'));
         }
 
+        $request = $this->updateRequest();
+
+        if (!is_array($request)) {
+            $this->tpl->set('error', $request);
+        } elseif ($request['status'] == 'error') {
+            $this->tpl->set('error', $request['message']);
+        } else {
+            $this->options('settings', 'update_version', $request['version']);
+            $this->options('settings', 'update_changelog', $request['changelog']);
+        }
+
+        $settings['version'] = $this->options->get('settings.version');
+        $settings['update_changelog'] = $this->options->get('settings.update_changelog');
+        $settings['update_version'] = $this->options->get('settings.update_version');
+        $this->tpl->set('settings', $settings);
+        $this->tpl->set('manual_mode', isset_or($manual_mode, false));
+
+        $settings_option = $this->options('settings');
+
+        if (!empty($redirectData = getRedirectData())) {
+            $settings_option = array_merge($settings_option, $redirectData);
+        }
+
+        foreach ($this->core->getRegisteredPages() as $page) {
+            $settings_option['pages'][] = $page;
+        }
+
+        $this->tpl->set('allow_curl', intval(function_exists('curl_init')));
+        $this->tpl->set('settings_option', $this->tpl->noParse_array(htmlspecialchars_array($settings_option)));
+
         $this->tpl->set('settings', $this->tpl->noParse_array(htmlspecialchars_array($settings)));
 
-        return $this->draw('general.html');
+        return $this->draw('settings.html');
     }
 
     public function postSaveGeneral()
@@ -89,25 +118,8 @@ class Admin extends AdminModule
                 $this->notify('failure', 'Pengaturan gagal');
             }
 
-            redirect(url([ADMIN, 'settings', 'general']));
+            redirect(url([ADMIN, 'settings', 'manage']));
         }
-    }
-
-    public function getAplikasi()
-    {
-        $settings = $this->options('settings');
-
-        if (!empty($redirectData = getRedirectData())) {
-            $settings = array_merge($settings, $redirectData);
-        }
-
-        foreach ($this->core->getRegisteredPages() as $page) {
-            $settings['pages'][] = $page;
-        }
-
-        $this->tpl->set('settings', $this->tpl->noParse_array(htmlspecialchars_array($settings)));
-
-        return $this->draw('aplikasi.html');
     }
 
     public function postSaveAplikasi()
@@ -131,7 +143,7 @@ class Admin extends AdminModule
                 $this->notify('failure', 'Pengaturan gagal');
             }
 
-            redirect(url([ADMIN, 'settings', 'aplikasi']));
+            redirect(url([ADMIN, 'settings', 'manage']));
         }
     }
 
@@ -332,6 +344,18 @@ class Admin extends AdminModule
 
         $dir->close();
         return true;
+    }
+
+    public function getJavascript()
+    {
+        header('Content-type: text/javascript');
+        echo $this->draw(MODULES.'/settings/js/app.js');
+        exit();
+    }
+
+    private function _addHeaderFiles()
+    {
+        $this->core->addJS(url([ADMIN, 'settings', 'javascript']), 'footer');
     }
 
 }
