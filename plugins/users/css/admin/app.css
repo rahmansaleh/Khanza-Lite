@@ -1,0 +1,4 @@
+select {width:320px !important}
+@media (max-width:767.98px) {
+  select {width:248px !important}
+}

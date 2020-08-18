@@ -1,44 +1,221 @@
-<article class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Kelola Pengguna</h3>
+<!----------------------------
+Content Area
+----------------------------->
+<div id="content" class="pmd-content content-area">
+    <!-- Page Title for Responsive View -->
+    <h1 class="h2 hide-large-desk">Appointments</h1>
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb pmd-breadcrumb ">
+            <li class="breadcrumb-item">
+                <a href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Appointments</li>
+        </ol>
+    </nav>
+    <!-- End Breadcrumb -->
+
+    <!-- Data Table -->
+    <div class="card pmd-card pmd-data-table">
+        <table id="user-checkbox" class="table pmd-table table-hover display dt-responsive nowrap"
+            cellspacing="0" width="100%">
+            <!-- Table Heading -->
+            <thead class="">
+                <tr>
+                    <th class="select-all"></th>
+                    <th>No</th>
+                    <th>Nama Lengkap</th>
+                    <th>Nama Pengguna</th>
+                    <th>Kata Kunci</th>
+                    <th>Role</th>
+                    <th>Akses Modul</th>
+                    <th></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop: $users}
+                <tr>
+                    <td></td>
+                    <td data-title="No">1</td>
+                    <td data-title="Nama Lengkap">{$value.nama}</td>
+                    <td data-title="Nama Pengguna">{$value.username}</td>
+                    <td data-title="Kata Kunci">{$value.password}</td>
+                    <td data-title="Role">{$value.role}</td>
+                    <td data-title="Akses Modul">{$value.access}</td>
+                    <td class=""></td>
+                    <td data-title="Actions">
+                        <a href='javascript:void(0);'
+                            class='btn pmd-btn-fab pmd-btn-flat btn-dark pmd-ripple-effect btn-sm mr-2'
+                            data-target='#view_user_modal' data-toggle='modal' title='View'>
+                            <i class='material-icons'>visibility</i>
+                        </a>
+                        <a href='javascript:void(0);'
+                            class='btn pmd-btn-fab pmd-btn-flat btn-dark pmd-ripple-effect btn-sm'
+                            data-target='#delete_user_modal' data-toggle='modal' title='Delete'>
+                            <i class='material-icons'>delete_outline</i>
+                        </a>
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+    </div>
+    <!-- End Data Table -->
+
+</div>
+<!-- End Content Area -->
+
+
+<!-- Add Department button -->
+<div class="menu list-view pmd-floating-action" role="navigation">
+    <a class="pmd-floating-action-btn btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary text-white pmd-sidebar-toggle"
+        data-title="Add Department" href="javascript:void(0);" data-target="addSidebar" data-placement="right"
+        data-position='fixed'>
+        <i class="material-icons">add</i>
+    </a>
+</div>
+<!-- End Add Department button -->
+
+<!----------------------------
+Right Sidebar | Add Department
+----------------------------->
+<aside id="addSidebar" class="pmd-sidebar bg-white pmd-sidebar-right-fixed pmd-z-depth-light-2 add-sidebar"
+    role="rightSidebar">
+    <div class="card pmd-card">
+        <!-- Card Header -->
+        <div class="card-header pmd-card-border">
+            <h3 class="card-title d-flex justify-content-between">Add Department
+                <button class="close pmd-sidebar-toggle" data-target="addSidebar" data-position='fixed'
+                    data-placement="right" type="button">
+                    <i class="material-icons">close</i>
+                </button>
+            </h3>
+        </div>
+        <!-- Card Body | Form Fields -->
+        <form name="user" action="{?=url(ADMIN.'/users/save/'.@$users.form.id)?}" method="POST" class="card-body">
+            <!-- Text Input Field -->
+            <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                <label for="department-name">Pengguna</label>
+                <select name="username" id="username" class="custom-select">
+                    {loop: $user_add.user}
+                        <option value="{$value.nik}"{if: $value.nik == $user_add.form.username} selected{/if}>{$value.nama}</option>
+                    {/loop}
+                </select>
+                <div class="invalid-feedback">Please Enter a Department Name. </div>
             </div>
-            <div class="panel-body">
-				<div class="table-responsive no-margin">
-					<table class="table table-striped display no-margin" width="100%">
-						<thead>
-							<tr>
-                <th>Nama Lengkap</th>
-								<th>Nama Pengguna</th>
-                <th>Kata Kunci</th>
-								<th>Role</th>
-                <th>Access</th>
-								<th class="text-right">Aksi</th>
-							</tr>
-						</thead>
-						<tbody>
-							{loop: $users}
-							<tr>
-                <td>{$value.nama}</td>
-								<td><a href="{$value.editURL}">{$value.username}</a></td>
-                <td>{$value.password}</td>
-								<td>{$value.role}</td>
-                <td>{$value.access}</td>
-								<td class="text-right">
-									<a href="{$value.editURL}" class="btn btn-xs btn-success">
-										<i class="fa fa-pencil"></i> <span class="hidden-xs">Edit</span>
-									</a>
-									<a href="{$value.delURL}" class="btn btn-xs btn-danger {if: $value.id==1 || $value.id==$myId}disabled{/if}" data-confirm="Anda yakin akan menghapus user ini?">
-										<i class="fa fa-trash-o"></i> <span class="hidden-xs">Hapus</span>
-									</a>
-								</td>
-							</tr>
-							{/loop}
-						</tbody>
-					</table>
-				</div>
+            <!-- Textarea Field -->
+            <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-outline">
+                <label>Description</label>
+                <textarea class="form-control" id="description" name="description"></textarea>
+            </div>
+            <!-- Radio buttons -->
+            <div class="form-group">
+                <label class="title-label">Active</label>
+                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                    <input type="radio" id="addRadioActive" name="addStatus" class="custom-control-input" checked>
+                    <label class="custom-control-label pmd-radio-ripple-effect" for="addRadioActive">Yes</label>
+                </div>
+                <div class="custom-control custom-radio pmd-radio custom-control-inline">
+                    <input type="radio" id="addRadioInactive" name="addStatus" class="custom-control-input">
+                    <label class="custom-control-label pmd-radio-ripple-effect" for="addRadioInactive">No</label>
+                </div>
+            </div>
+            <!-- Form Actions -->
+            <div class="pmd-modal-action">
+                <a href="javascript:void(0);" data-target="addSidebar" data-position='fixed' data-placement="right"
+                    class="btn pmd-btn-raised d-block btn-primary pmd-ripple-effect mb-2 ml-0 pmd-sidebar-toggle"
+                    title="Add Department">Add
+                    Department</a>
+                <a href="javascript:void(0);" data-target="addSidebar" data-position='fixed' data-placement="right"
+                    class="m-0 btn d-block btn-outline-secondary pmd-ripple-effect pmd-btn-flat pmd-sidebar-toggle"
+                    title="Cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</aside>
+<!-- End Right Sidebar | Add Department -->
+
+
+<!----------------------------
+Modal | View
+----------------------------->
+<div tabindex="-1" class="modal pmd-modal" id="view_user_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header pmd-modal-border">
+                <h3 class="modal-title">Appointment Detail</h3>
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <!-- Modal Body Content -->
+            <div class="modal-body mb-4">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="title-label">Appointment ID</label>
+                        <p>APT-101</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="title-label">Patient ID</label>
+                        <p>XYZ-101</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="title-label">Department</label>
+                        <p>Endoscopy</p>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="title-label">Doctor Name</label>
+                        <p>Russell Walker</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="title-label">Appointment Date</label>
+                        <p>12<sup>th</sup> April 2019</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="title-label">Appointment Time</label>
+                        <p>11:00 AM</p>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="title-label">Problem</label>
+                        <p>During an upper endoscopy, an endoscope is easily passed through the mouth and throat and
+                            into the esophagus, allowing the doctor to view the esophagus, stomach, and upper part
+                            of the small intestine.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</article>
+</div>
+<!-- End Modal | View -->
+
+<!----------------------------
+Modal | Delete
+----------------------------->
+<div tabindex="-1" class="modal pmd-modal text-center delete-modal" id="delete_user_modal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header justify-content-center">
+                <i class="material-icons md-danger-circle pmd-icon-circle pmd-icon-md">
+                    <strong>error_outline</strong>
+                </i>
+            </div>
+            <!-- Modal Body Content -->
+            <div class="modal-body">
+                <h3 class="modal-title mb-2">Are you sure?</h3>
+                <p class="mb-4">Do you really want to delete Appointment?<br>This action cannot be
+                    undone.</p>
+                <a href="javascript:void(0);" class="btn pmd-btn-raised btn-danger pmd-ripple-effect mr-2"
+                    title="Delete" data-dismiss="modal">Delete</a>
+                <a href="javascript:void(0);" class="btn btn-outline-danger pmd-ripple-effect" title="Cancel"
+                    data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal | Delete -->

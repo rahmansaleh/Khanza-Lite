@@ -9,8 +9,11 @@
     <link rel="shortcut icon" type="image/x-icon" href="{?=url(THEMES.'/admin/assets/images/logo-yaski.png')?}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{?=url(THEMES.'/admin/assets/css/ehealthcare-admin-compress.min.css')?}">
-    <link rel="stylesheet" type="text/css" href="{?=url(THEMES.'/admin/assets/selectator.css')?}">
+    <link rel="stylesheet" type="text/css" href="{?=url(THEMES.'/admin/assets/css/bootstrap.min.css')?}">
+    <link rel="stylesheet" type="text/css" href="{?=url(THEMES.'/admin/assets/css/selectator.css')?}">
+    <style>
+      .alert-content{padding-top:5rem;padding-left:1.25rem;padding-right:1.25rem;position: absolute; top: 0; right: 0;}
+    </style>
     <script>
         var opensimrs = {token:"{$_SESSION['token']}", url:"{?=url()?}", admin:"{?=ADMIN?}"};
     </script>
@@ -145,10 +148,24 @@
                 {/if}
             </li>
         {/loop}
+            <li class="nav-item ">
+                <a class="nav-link" href="l{?=url(ADMIN.'/logout')?}">
+                    <i class="material-icons pmd-list-icon pmd-sm md-light">logout</i>
+                    <span class="media-body">Log Out</span>
+                </a>
+            </li>
         </ul>
 
     </aside>
     <!-- End Left Sidebar -->
+
+    {if: $opensimrs.notify}
+    <div class="alert-content">
+    <div id="notify" class="alert alert-{$opensimrs.notify.type} alert-dismissible" role="alert">
+        {$opensimrs.notify.text}
+    </div>
+    </div>
+		{/if}
 
     <!-- Module Content -->
     {$module.content}
@@ -170,29 +187,11 @@
     </footer>
     <!-- End Footer -->
 
-
-    <!-- build:include snippets/js-files-index.html -->
-    <!-- /build -->
-
     <!-- build:remove -->
     <!--Admin js-->
-    <script type="text/javascript" src="{?=url(THEMES.'/admin/assets/js/ehealthcare-admin-compress.min.js')?}"></script>
-    <script type="text/javascript" src="{?=url(THEMES.'/admin/assets/selectator.js')?}"></script>
-    <script type="text/javascript">
-    $('select').each(function () {
-        var options = {
-            useDimmer: true,
-            useSearch: true,
-            labels: {
-                search: '...'
-            }
-        };
-        $.each($(this).data(), function (key, value) {
-            options[key] = value;
-        });
-        $(this).selectator(options);
-    });
-    </script>
+    <script type="text/javascript" src="{?=url(THEMES.'/admin/assets/js/bootstrap.min.js')?}"></script>
+    <script type="text/javascript" src="{?=url(THEMES.'/admin/assets/js/selectator.js')?}"></script>
+    <script type="text/javascript" src="{?=url(THEMES.'/admin/assets/js/script.js')?}"></script>
     <!-- /build -->
     {loop: $opensimrs.footer}{$value}{/loop}
 

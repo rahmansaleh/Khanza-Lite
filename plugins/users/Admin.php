@@ -11,8 +11,7 @@ class Admin extends AdminModule
     public function navigation()
     {
         return [
-            'Kelola'    => 'manage',
-            'Tambah Baru'                => 'add'
+            'Kelola'    => 'manage'
         ];
     }
 
@@ -21,7 +20,9 @@ class Admin extends AdminModule
     */
     public function getManage()
     {
-        $this->_addHeaderFiles();
+        //$this->_addHeaderFiles();
+        $this->core->addCSS(url(MODULES.'/users/css/admin/app.css'));
+
         $rows = $this->db()->pdo()->prepare("SELECT lite_roles.*, pegawai.nama as nama, AES_DECRYPT(user.password,'windi') as password FROM lite_roles, pegawai, user WHERE pegawai.nik = lite_roles.username AND pegawai.nik = AES_DECRYPT(user.id_user,'nur') AND lite_roles.id !=1");
         $rows->execute();
         $rows = $rows->fetchAll();
@@ -34,7 +35,20 @@ class Admin extends AdminModule
             $row['delURL']  = url([ADMIN, 'users', 'delete', $row['id']]);
         }
 
-        return $this->draw('manage.html', ['myId' => $this->core->getUserInfo('id'), 'users' => $rows]);
+        $this->_addInfoUser();
+        $this->_addInfoRole();
+        $this->_addInfoCap();
+
+        if (!empty($redirectData = getRedirectData())) {
+            $this->assign['form'] = filter_var_array($redirectData, FILTER_SANITIZE_STRING);
+        } else {
+            $this->assign['form'] = ['username' => '', 'role' => '', 'cap' => '', 'access' => ''];
+        }
+
+        $this->assign['title'] = 'Pengguna baru';
+        $this->assign['modules'] = $this->_getModules('all');
+
+        return $this->draw('manage.html', ['myId' => $this->core->getUserInfo('id'), 'users' => $rows, 'user_add' => $this->assign]);
     }
 
 
