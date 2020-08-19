@@ -10,7 +10,7 @@ define('DBHOST', 'localhost');
 define('DBPORT', '3306');
 define('DBUSER', 'root');
 define('DBPASS', '');
-define('DBNAME', 'sik');
+define('DBNAME', 'sik_lite_dev');
 
 // URL Webapps
 define('WEBAPPS_URL', '');
